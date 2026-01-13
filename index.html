@@ -62,12 +62,13 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             z-index: 100;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            transition: opacity 0.3s;
         }
         .spinner {
             border: 4px solid #f3f3f3;
@@ -92,7 +93,8 @@
     <!-- Loading Overlay -->
     <div id="loading-overlay">
         <div class="spinner mb-4"></div>
-        <p class="text-gray-600 font-medium">กำลังเชื่อมต่อฐานข้อมูล...</p>
+        <p id="loading-text" class="text-gray-600 font-medium">กำลังเชื่อมต่อฐานข้อมูล...</p>
+        <p id="loading-subtext" class="text-gray-400 text-xs mt-2 hidden">หากรอนานเกินไป ระบบจะตัดการทำงานอัตโนมัติ</p>
     </div>
 
     <!-- Navbar -->
@@ -284,8 +286,7 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, doc, getDoc, setDoc, updateDoc, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-		import { initializeApp } from "firebase/app";
-		import { getAnalytics } from "firebase/analytics";
+
         // Global Variables
         window.courseData = [
             { id: 1, title: "พื้นฐานไฟฟ้าและความปลอดภัย", description: "เรียนรู้ระบบไฟฟ้าเบื้องต้น DC/AC และอุปกรณ์ป้องกันภัยส่วนบุคคล (PPE)", icon: "fa-bolt", color: "text-yellow-500", durationSec: 10, locked: false, status: 'pending', preTest: [{ q: "ไฟฟ้าที่ได้จากแผงโซล่าเซลล์เป็นไฟฟ้าชนิดใด?", options: ["AC (กระแสสลับ)", "DC (กระแสตรง)", "Static (ไฟฟ้าสถิต)"], ans: 1 }, { q: "อุปกรณ์ใดสำคัญที่สุดในการป้องกันการตกจากที่สูง?", options: ["หมวกนิรภัย", "ถุงมือยาง", "เข็มขัดนิรภัย"], ans: 2 }], postTest: [{ q: "แรงดันไฟฟ้าของแผงโซล่าเซลล์ทั่วไปเมื่อต่ออนุกรมจะ...", options: ["ลดลง", "เท่าเดิม", "เพิ่มขึ้น"], ans: 2 }, { q: "การต่อสายดิน (Grounding) มีประโยชน์อย่างไร?", options: ["เพิ่มประสิทธิภาพการผลิตไฟ", "ป้องกันไฟรั่วและฟ้าผ่า", "ลดอุณหภูมิแผง"], ans: 1 }] },
@@ -293,17 +294,9 @@
             { id: 3, title: "ขั้นตอนการติดตั้งและเดินสายไฟ", description: "เทคนิคการยึดราง (Mounting), การเข้าหัว MC4 และการเชื่อมต่อระบบ", icon: "fa-tools", color: "text-green-500", durationSec: 20, locked: true, status: 'pending', preTest: [{ q: "ขั้วต่อสายไฟมาตรฐานสำหรับโซล่าเซลล์เรียกว่า?", options: ["RJ45", "USB", "MC4"], ans: 2 }, { q: "ทิศทางที่เหมาะสมที่สุดในการติดตั้งแผงในไทยคือ?", options: ["ทิศเหนือ", "ทิศใต้", "ทิศตะวันออก"], ans: 1 }], postTest: [{ q: "เครื่องมือใดใช้ย้ำหัว MC4?", options: ["คีมปากจิ้งจก", "คีมย้ำหางปลาเฉพาะทาง", "ค้อน"], ans: 1 }, { q: "ก่อนเปิดระบบ (Commissioning) ต้องตรวจสอบอะไร?", options: ["ล้างแผงให้สะอาด", "วัดค่าแรงดันและขั้วสาย", "ทาสีรางยึด"], ans: 1 }] }
         ];
 
-        // Init Firebase
-        // Reverting to use environment config for preview
-        const firebaseConfig = {
-			apiKey: "AIzaSyDYA2Bs8k4amhQaOkIhC8_a9rXCtDv46SQ",
-			authDomain: "sola-web-e17e2.firebaseapp.com",
-			projectId: "sola-web-e17e2",
-			storageBucket: "sola-web-e17e2.firebasestorage.app",
-			messagingSenderId: "925097721244",
-			appId: "1:925097721244:web:d0b9b60fa8da8c0368dc59",
-			measurementId: "G-4HWJRNK3JM"
-		};
+        // Init Firebase Variables (Declared in Scope but initialized in initApp for safety)
+        let app, auth, db;
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
 
         // Paths
         // We use PUBLIC data to allow sharing "users" across devices for this specific demo architecture
@@ -319,24 +312,68 @@
         // Initialize App
         async function initApp() {
             setLoading(true);
+            
+            // Safety Timeout: If loading takes too long (> 10s), stop loading and alert user.
+            const safetyTimer = setTimeout(() => {
+                setLoading(false);
+                alert("การเชื่อมต่อใช้เวลานานผิดปกติ\nหากคุณรันไฟล์นี้ภายนอก กรุณาตรวจสอบว่าได้ตั้งค่า firebaseConfig หรือยัง");
+            }, 10000);
+
             try {
-                // Check for custom token (Canvas environment)
+                // 1. Safe Config Loading
+                let firebaseConfig;
+                try {
+                    // Try to load env config (Canvas environment)
+                    // If you are running on GitHub/Localhost, replace this line with: const firebaseConfig = { ... your config ... };
+                    if (typeof __firebase_config !== 'undefined') {
+                        firebaseConfig = JSON.parse(__firebase_config);
+                    }
+                } catch (e) {
+                    console.warn("Auto-config failed, looking for manual config...");
+                }
+
+                if (!firebaseConfig) {
+                    throw new Error("ไม่พบการตั้งค่า Firebase (firebaseConfig is missing)");
+                }
+
+                // 2. Initialize Firebase
+                app = initializeApp(firebaseConfig);
+                auth = getAuth(app);
+                db = getFirestore(app);
+                
+                // 3. Authenticate
                 if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
                     await signInWithCustomToken(auth, __initial_auth_token);
                 } else {
                     await signInAnonymously(auth);
                 }
                 
-                // Auth Ready
+                // Success: Clear timeout and proceed
+                clearTimeout(safetyTimer);
                 setLoading(false);
-                
-                // Check if session exists (optional, simplified for this demo to just show login)
                 showLogin();
 
             } catch (error) {
-                console.error("Auth Error", error);
-                alert("เกิดข้อผิดพลาดในการเชื่อมต่อระบบ: " + error.message);
+                clearTimeout(safetyTimer);
+                console.error("Auth/Init Error", error);
                 setLoading(false);
+                
+                // Render Error UI
+                document.body.innerHTML = `
+                    <div class="min-h-screen flex items-center justify-center bg-red-50 p-4">
+                        <div class="bg-white p-6 rounded-xl shadow-lg max-w-md text-center border-l-4 border-red-500">
+                            <i class="fa-solid fa-circle-exclamation text-4xl text-red-500 mb-4"></i>
+                            <h2 class="text-xl font-bold text-gray-800 mb-2">เกิดข้อผิดพลาดในการโหลด</h2>
+                            <p class="text-gray-600 mb-4 text-sm">${error.message}</p>
+                            <div class="bg-gray-100 p-3 rounded text-xs text-left text-gray-500 overflow-x-auto">
+                                <strong>วิธีแก้ไขเบื้องต้น:</strong><br>
+                                1. หากรันใน Preview: ลอง Refresh หน้าจอ<br>
+                                2. หากรันข้างนอก (GitHub/Local): คุณต้องแก้โค้ดส่วน <code>firebaseConfig</code> ให้เป็นของคุณเอง
+                            </div>
+                            <button onclick="location.reload()" class="mt-4 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition">ลองใหม่</button>
+                        </div>
+                    </div>
+                `;
             }
         }
 
@@ -910,7 +947,11 @@
             const loader = document.getElementById('loading-overlay');
             if (active) {
                 loader.style.display = 'flex';
-                if(msg) loader.querySelector('p').textContent = msg;
+                if(msg) document.getElementById('loading-text').textContent = msg;
+                // Show hint after 3 seconds
+                setTimeout(() => {
+                   if(loader.style.display !== 'none') document.getElementById('loading-subtext').classList.remove('hidden');
+                }, 3000);
             } else {
                 loader.style.display = 'none';
             }
