@@ -284,7 +284,8 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, doc, getDoc, setDoc, updateDoc, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
+		import { initializeApp } from "firebase/app";
+		import { getAnalytics } from "firebase/analytics";
         // Global Variables
         window.courseData = [
             { id: 1, title: "พื้นฐานไฟฟ้าและความปลอดภัย", description: "เรียนรู้ระบบไฟฟ้าเบื้องต้น DC/AC และอุปกรณ์ป้องกันภัยส่วนบุคคล (PPE)", icon: "fa-bolt", color: "text-yellow-500", durationSec: 10, locked: false, status: 'pending', preTest: [{ q: "ไฟฟ้าที่ได้จากแผงโซล่าเซลล์เป็นไฟฟ้าชนิดใด?", options: ["AC (กระแสสลับ)", "DC (กระแสตรง)", "Static (ไฟฟ้าสถิต)"], ans: 1 }, { q: "อุปกรณ์ใดสำคัญที่สุดในการป้องกันการตกจากที่สูง?", options: ["หมวกนิรภัย", "ถุงมือยาง", "เข็มขัดนิรภัย"], ans: 2 }], postTest: [{ q: "แรงดันไฟฟ้าของแผงโซล่าเซลล์ทั่วไปเมื่อต่ออนุกรมจะ...", options: ["ลดลง", "เท่าเดิม", "เพิ่มขึ้น"], ans: 2 }, { q: "การต่อสายดิน (Grounding) มีประโยชน์อย่างไร?", options: ["เพิ่มประสิทธิภาพการผลิตไฟ", "ป้องกันไฟรั่วและฟ้าผ่า", "ลดอุณหภูมิแผง"], ans: 1 }] },
@@ -295,14 +296,14 @@
         // Init Firebase
         // Reverting to use environment config for preview
         const firebaseConfig = {
-  apiKey: "AIzaSyDYA2Bs8k4amhQaOkIhC8_a9rXCtDv46SQ",
-  authDomain: "sola-web-e17e2.firebaseapp.com",
-  projectId: "sola-web-e17e2",
-  storageBucket: "sola-web-e17e2.firebasestorage.app",
-  messagingSenderId: "925097721244",
-  appId: "1:925097721244:web:d0b9b60fa8da8c0368dc59",
-  measurementId: "G-4HWJRNK3JM"
-};
+			apiKey: "AIzaSyDYA2Bs8k4amhQaOkIhC8_a9rXCtDv46SQ",
+			authDomain: "sola-web-e17e2.firebaseapp.com",
+			projectId: "sola-web-e17e2",
+			storageBucket: "sola-web-e17e2.firebasestorage.app",
+			messagingSenderId: "925097721244",
+			appId: "1:925097721244:web:d0b9b60fa8da8c0368dc59",
+			measurementId: "G-4HWJRNK3JM"
+		};
 
         // Paths
         // We use PUBLIC data to allow sharing "users" across devices for this specific demo architecture
