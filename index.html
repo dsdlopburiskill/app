@@ -320,17 +320,35 @@
             }, 10000);
 
             try {
-                // 1. Safe Config Loading
-                let firebaseConfig;
+                const firebaseConfig = {
+					apiKey: "AIzaSyDYA2Bs8k4amhQaOkIhC8_a9rXCtDv46SQ",
+					authDomain: "sola-web-e17e2.firebaseapp.com",
+					projectId: "sola-web-e17e2",
+					storageBucket: "sola-web-e17e2.firebasestorage.app",
+					messagingSenderId: "925097721244",
+					appId: "1:925097721244:web:9ad7993fe636fc1c68dc59",
+					measurementId: "G-XQVRP1FJGP"
+				};
+
                 try {
-                    // Try to load env config (Canvas environment)
-                    // If you are running on GitHub/Localhost, replace this line with: const firebaseConfig = { ... your config ... };
+                    // ส่วนนี้สำหรับเล่นในหน้าเว็บนี้ (Preview)
                     if (typeof __firebase_config !== 'undefined') {
                         firebaseConfig = JSON.parse(__firebase_config);
-                    }
-                } catch (e) {
-                    console.warn("Auto-config failed, looking for manual config...");
+                    } 
+                } catch (e) { console.log("Using manual config if available"); }
+
+                // ถ้าไม่มีค่าจากระบบ (เช่น รันบนเครื่องตัวเอง) ให้ใช้ค่าด้านล่างนี้
+                if (!firebaseConfig) {
+                    firebaseConfig = {
+                        apiKey: "ใส่_API_KEY_ที่นี่",
+                        authDomain: "ใส่_PROJECT_ID.firebaseapp.com",
+                        projectId: "ใส่_PROJECT_ID",
+                        storageBucket: "ใส่_PROJECT_ID.firebasestorage.app",
+                        messagingSenderId: "ใส่_SENDER_ID",
+                        appId: "ใส่_APP_ID"
+                    };
                 }
+                // ==========================================
 
                 if (!firebaseConfig) {
                     throw new Error("ไม่พบการตั้งค่า Firebase (firebaseConfig is missing)");
