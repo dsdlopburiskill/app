@@ -319,7 +319,7 @@
                 alert("การเชื่อมต่อใช้เวลานานผิดปกติ\nหากคุณรันไฟล์นี้ภายนอก กรุณาตรวจสอบว่าได้ตั้งค่า firebaseConfig หรือยัง");
             }, 10000);
 
-            try {
+    
                 const firebaseConfig = {
 					apiKey: "AIzaSyDYA2Bs8k4amhQaOkIhC8_a9rXCtDv46SQ",
 					authDomain: "sola-web-e17e2.firebaseapp.com",
@@ -330,12 +330,6 @@
 					measurementId: "G-XQVRP1FJGP"
 				};
 
-                try {
-                    // ส่วนนี้สำหรับเล่นในหน้าเว็บนี้ (Preview)
-                    if (typeof __firebase_config !== 'undefined') {
-                        firebaseConfig = JSON.parse(__firebase_config);
-                    } 
-                } catch (e) { console.log("Using manual config if available"); }
 
                 // ถ้าไม่มีค่าจากระบบ (เช่น รันบนเครื่องตัวเอง) ให้ใช้ค่าด้านล่างนี้
                 if (!firebaseConfig) {
