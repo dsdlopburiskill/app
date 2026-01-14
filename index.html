@@ -10,7 +10,26 @@
     <style>
         body {
             font-family: 'Sarabun', sans-serif;
+            /* --- โค้ดสำหรับใส่รูปพื้นหลัง --- */
+            background-image: url('blackgound.jpg'); /* เปลี่ยนชื่อไฟล์รูปพื้นหลังตรงนี้ */
+            background-size: cover;           /* ให้รูปขยายเต็มหน้าจอ */
+            background-position: center;      /* จัดรูปให้อยู่ตรงกลาง */
+            background-attachment: fixed;    /* ให้พื้นหลังอยู่กับที่เวลาเลื่อนหน้าจอ */
+            background-repeat: no-repeat;
         }
+        
+        /* เพิ่ม Overlay สีจางๆ ทับพื้นหลังเพื่อให้ตัวอักษรอ่านง่ายขึ้น */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(241, 245, 249, 0.2); /* ปรับความเข้ม/จาง ตรงเลข 0.9 */
+            z-index: -1;
+        }
+
         .accordion-content {
             max-height: 0;
             overflow: hidden;
@@ -22,7 +41,7 @@
         }
         .rotate-180 {
             transform: rotate(180deg);
-        }
+        }        }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 p-4 md:p-8">
