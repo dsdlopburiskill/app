@@ -3,986 +3,194 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SolarPro - หลักสูตรติดตั้งโซล่าเซลล์ (Online)</title>
-    <!-- Tailwind CSS -->
+    <title>อินโฟกราฟิก: การปลูกพืชในโรงเรือนเกษตรอัจฉริยะ</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
-    
+    <!-- Google Fonts: Noto Sans Thai -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         body {
-            font-family: 'Kanit', sans-serif;
-            background-color: #f0f9ff;
+            font-family: 'Noto Sans Thai', sans-serif;
         }
         .gradient-bg {
-            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            background: linear-gradient(135deg, #059669 0%, #0f766e 100%);
         }
-        .card-hover:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
-        }
-        .video-container {
-            position: relative;
-            padding-bottom: 56.25%; /* 16:9 */
-            height: 0;
-            background-color: #000;
-            border-radius: 0.5rem;
-            overflow: hidden;
-        }
-        .video-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(0,0,0,0.6);
-            cursor: pointer;
-            z-index: 10;
-        }
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1; 
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #f59e0b; 
-            border-radius: 10px;
-        }
-        /* Loading Overlay */
-        #loading-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            z-index: 100;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 0.3s;
-        }
-        .spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #f59e0b;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        .modal-enter { opacity: 0; transform: scale(0.9); }
-        .modal-enter-active { opacity: 1; transform: scale(1); transition: all 0.2s; }
-        .modal-exit { opacity: 1; transform: scale(1); }
-        .modal-exit-active { opacity: 0; transform: scale(0.9); transition: all 0.2s; }
     </style>
 </head>
-<body class="bg-blue-50 text-gray-800 min-h-screen flex flex-col">
+<body class="bg-slate-50 text-slate-800 antialiased">
 
-    <!-- Loading Overlay -->
-    <div id="loading-overlay">
-        <div class="spinner mb-4"></div>
-        <p id="loading-text" class="text-gray-600 font-medium">กำลังเชื่อมต่อฐานข้อมูล...</p>
-        <p id="loading-subtext" class="text-gray-400 text-xs mt-2 hidden">หากรอนานเกินไป ระบบจะตัดการทำงานอัตโนมัติ</p>
-    </div>
-
-    <!-- Navbar -->
-    <nav class="bg-white shadow-md sticky top-0 z-50">
-        <div class="max-w-5xl mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="flex items-center gap-2 cursor-pointer" onclick="handleLogoClick()">
-                <div class="w-10 h-10 bg-yellow-400 rounded-full flex items-center justify-center text-white text-xl shadow-lg">
-                    <i class="fa-solid fa-solar-panel"></i>
-                </div>
-                <div>
-                    <h1 class="font-bold text-lg text-yellow-600 leading-tight">SolarPro</h1>
-                    <p class="text-xs text-gray-500">Academy (Online)</p>
-                </div>
-            </div>
+    <div class="min-h-screen p-4 md:p-8">
+        <div class="max-w-4xl mx-auto bg-white rounded-[2rem] shadow-2xl overflow-hidden border border-emerald-100">
             
-            <div id="nav-user-info" class="hidden flex items-center gap-4">
-                <div class="text-right hidden sm:block">
-                    <span id="user-name-display" class="text-sm font-bold text-gray-700 block">User</span>
-                    <span id="user-role-display" class="text-xs text-gray-500 block">Student</span>
+            <!-- Header Section -->
+            <div class="gradient-bg p-8 md:p-12 text-white relative overflow-hidden">
+                <div class="absolute top-0 right-0 opacity-10 -mr-12 -mt-12">
+                    <i data-lucide="leaf" size="240"></i>
                 </div>
-                <div id="student-progress-bar" class="hidden w-24 bg-gray-200 rounded-full h-2.5">
-                    <div id="global-progress" class="bg-green-500 h-2.5 rounded-full transition-all duration-500" style="width: 0%"></div>
-                </div>
-                <button onclick="logout()" class="text-gray-400 hover:text-red-500 transition-colors">
-                    <i class="fa-solid fa-right-from-bracket text-xl"></i>
-                </button>
-            </div>
-        </div>
-    </nav>
-
-    <!-- AUTH SECTION -->
-    <div id="auth-section" class="flex-grow flex items-center justify-center p-4 hidden">
-        <div class="bg-white p-8 rounded-3xl shadow-xl max-w-md w-full animate-fade-in-up border border-gray-100 my-8">
-            <div class="text-center mb-8">
-                <div class="w-20 h-20 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4 text-yellow-600 text-3xl">
-                    <i class="fa-solid fa-cloud"></i>
-                </div>
-                <h2 class="text-2xl font-bold text-gray-800">เข้าสู่ระบบ</h2>
-                <p class="text-gray-500 text-sm mt-1">ข้อมูลของคุณจะถูกเก็บไว้บน Cloud</p>
-            </div>
-
-            <!-- Form -->
-            <form id="login-form" class="space-y-4">
-                
-                <!-- Register Fields -->
-                <div id="register-fields" class="hidden space-y-4 border-b border-gray-100 pb-4 mb-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">ชื่อ - นามสกุล <span class="text-red-500">*</span></label>
-                        <input type="text" id="reg-fullname" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-yellow-400 focus:border-transparent outline-none transition-all" placeholder="สมชาย ใจดี">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">อาชีพ <span class="text-red-500">*</span></label>
-                        <input type="text" id="reg-occupation" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-yellow-400 focus:border-transparent outline-none transition-all" placeholder="วิศวกร, ช่างไฟ, นักศึกษา">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">วุฒิการศึกษา</label>
-                        <select id="reg-education" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-yellow-400 focus:border-transparent outline-none transition-all bg-white">
-                            <option value="ต่ำกว่ามัธยมศึกษา">ต่ำกว่ามัธยมศึกษา</option>
-                            <option value="มัธยมศึกษาตอนต้น">มัธยมศึกษาตอนต้น</option>
-                            <option value="มัธยมศึกษาตอนปลาย/ปวช.">มัธยมศึกษาตอนปลาย / ปวช.</option>
-                            <option value="อนุปริญญา/ปวส.">อนุปริญญา / ปวส.</option>
-                            <option value="ปริญญาตรี">ปริญญาตรี</option>
-                            <option value="สูงกว่าปริญญาตรี">สูงกว่าปริญญาตรี</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">ประวัติการทำงานโดยสังเขป</label>
-                        <textarea id="reg-history" rows="3" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-yellow-400 focus:border-transparent outline-none transition-all" placeholder="เคยทำงานด้านไฟฟ้า 2 ปี..."></textarea>
-                    </div>
-                    <div class="border-t border-gray-100 pt-2">
-                        <p class="text-xs text-gray-400 mb-2">ข้อมูลบัญชีผู้ใช้</p>
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">ชื่อผู้ใช้ (Username) <span class="text-red-500">*</span></label>
-                    <input type="text" id="login-username" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-yellow-400 focus:border-transparent outline-none transition-all" placeholder="ชื่อภาษาอังกฤษ (ไม่ซ้ำ)" required>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">รหัสผ่าน (Password) <span class="text-red-500">*</span></label>
-                    <input type="password" id="login-password" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-yellow-400 focus:border-transparent outline-none transition-all" placeholder="••••••" required>
-                </div>
-                <button type="submit" id="auth-submit-btn" class="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 rounded-xl shadow-lg transition-all transform hover:scale-[1.02]">
-                    เข้าสู่ระบบ
-                </button>
-            </form>
-
-            <div class="mt-6 text-center border-t pt-4">
-                <p class="text-gray-600 text-sm" id="auth-toggle-text">ยังไม่มีบัญชี?</p>
-                <button onclick="toggleAuthMode()" id="auth-toggle-btn" class="text-indigo-600 font-semibold hover:underline mt-1">สมัครสมาชิกใหม่</button>
-            </div>
-            
-            <div id="admin-hint" class="mt-4 p-3 bg-gray-50 rounded-lg text-xs text-gray-500 text-center">
-                <p>Admin Login: <span class="font-mono bg-gray-200 px-1 rounded">admin</span> / <span class="font-mono bg-gray-200 px-1 rounded">1234</span></p>
-            </div>
-        </div>
-    </div>
-
-    <!-- STUDENT SECTION -->
-    <main id="app-container" class="hidden flex-grow max-w-5xl mx-auto w-full p-4">
-        <!-- Content -->
-    </main>
-
-    <!-- ADMIN SECTION -->
-    <div id="admin-section" class="hidden flex-grow max-w-6xl mx-auto w-full p-4">
-        <div class="mb-6 flex justify-between items-center animate-fade-in-down">
-            <div>
-                <h2 class="text-2xl font-bold text-gray-800">แผงควบคุมผู้ดูแลระบบ (Online)</h2>
-                <p class="text-gray-600">ข้อมูลจากฐานข้อมูลกลาง Real-time</p>
-            </div>
-            <div class="bg-white px-4 py-2 rounded-lg shadow-sm">
-                <span class="text-sm text-gray-500">นักเรียนทั้งหมด</span>
-                <span id="admin-total-users" class="block text-2xl font-bold text-indigo-600">0</span>
-            </div>
-        </div>
-
-        <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden animate-fade-in-up">
-            <div class="overflow-x-auto">
-                <table class="w-full text-left border-collapse">
-                    <thead>
-                        <tr class="bg-gray-50 text-gray-600 text-sm uppercase tracking-wider">
-                            <th class="p-4 font-semibold border-b">ชื่อผู้ใช้</th>
-                            <th class="p-4 font-semibold border-b">ชื่อ - นามสกุล</th>
-                            <th class="p-4 font-semibold border-b">อาชีพ</th>
-                            <th class="p-4 font-semibold border-b text-center">ความคืบหน้า</th>
-                            <th class="p-4 font-semibold border-b text-center">จัดการ</th>
-                        </tr>
-                    </thead>
-                    <tbody id="admin-user-list" class="divide-y divide-gray-100">
-                        <!-- Rows -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="mt-4 text-center">
-            <button onclick="renderAdminDashboard()" class="text-indigo-600 text-sm hover:underline"><i class="fa-solid fa-arrows-rotate"></i> รีเฟรชข้อมูล</button>
-        </div>
-    </div>
-
-    <!-- User Modal -->
-    <div id="user-detail-modal" class="fixed inset-0 z-[60] flex items-center justify-center bg-black bg-opacity-50 hidden transition-opacity duration-300">
-        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 m-4 transform scale-95 transition-transform duration-300 relative">
-            <button onclick="closeUserModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600"><i class="fa-solid fa-times text-xl"></i></button>
-            <div class="text-center mb-6">
-                <div class="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-2xl mx-auto mb-3"><i class="fa-solid fa-user"></i></div>
-                <h3 id="modal-username" class="text-xl font-bold text-gray-800">Username</h3>
-                <span id="modal-role" class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">Student</span>
-            </div>
-            <div class="space-y-4">
-                <div class="bg-gray-50 p-3 rounded-lg">
-                    <p class="text-xs text-gray-500">ชื่อ - นามสกุล</p>
-                    <p id="modal-fullname" class="font-medium text-gray-800">-</p>
-                </div>
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="bg-gray-50 p-3 rounded-lg">
-                        <p class="text-xs text-gray-500">อาชีพ</p>
-                        <p id="modal-occupation" class="font-medium text-gray-800">-</p>
-                    </div>
-                    <div class="bg-gray-50 p-3 rounded-lg">
-                        <p class="text-xs text-gray-500">วุฒิการศึกษา</p>
-                        <p id="modal-education" class="font-medium text-gray-800">-</p>
-                    </div>
-                </div>
-                <div class="bg-gray-50 p-3 rounded-lg">
-                    <p class="text-xs text-gray-500">ประวัติการทำงาน</p>
-                    <p id="modal-history" class="font-medium text-gray-800 text-sm whitespace-pre-wrap">-</p>
-                </div>
-            </div>
-            <div class="mt-6">
-                <button onclick="closeUserModal()" class="w-full bg-gray-800 text-white py-2 rounded-lg hover:bg-gray-900">ปิดหน้าต่าง</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-6 text-center mt-auto">
-        <p class="text-sm opacity-70">© 2024 SolarPro Academy - ฝึกอบรมการติดตั้งโซล่าเซลล์</p>
-    </footer>
-
-    <!-- Toast -->
-    <div id="toast" class="fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-6 py-3 rounded-full shadow-lg transition-opacity duration-300 opacity-0 pointer-events-none z-50 flex items-center gap-2">
-        <i class="fa-solid fa-circle-check text-green-400"></i>
-        <span id="toast-message">Notification</span>
-    </div>
-
-    <!-- Scripts -->
-    <script type="module">
-        // Import Firebase
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, doc, getDoc, setDoc, updateDoc, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-        // Global Variables
-        window.courseData = [
-            { id: 1, title: "พื้นฐานไฟฟ้าและความปลอดภัย", description: "เรียนรู้ระบบไฟฟ้าเบื้องต้น DC/AC และอุปกรณ์ป้องกันภัยส่วนบุคคล (PPE)", icon: "fa-bolt", color: "text-yellow-500", durationSec: 10, locked: false, status: 'pending', preTest: [{ q: "ไฟฟ้าที่ได้จากแผงโซล่าเซลล์เป็นไฟฟ้าชนิดใด?", options: ["AC (กระแสสลับ)", "DC (กระแสตรง)", "Static (ไฟฟ้าสถิต)"], ans: 1 }, { q: "อุปกรณ์ใดสำคัญที่สุดในการป้องกันการตกจากที่สูง?", options: ["หมวกนิรภัย", "ถุงมือยาง", "เข็มขัดนิรภัย"], ans: 2 }], postTest: [{ q: "แรงดันไฟฟ้าของแผงโซล่าเซลล์ทั่วไปเมื่อต่ออนุกรมจะ...", options: ["ลดลง", "เท่าเดิม", "เพิ่มขึ้น"], ans: 2 }, { q: "การต่อสายดิน (Grounding) มีประโยชน์อย่างไร?", options: ["เพิ่มประสิทธิภาพการผลิตไฟ", "ป้องกันไฟรั่วและฟ้าผ่า", "ลดอุณหภูมิแผง"], ans: 1 }] },
-            { id: 2, title: "รู้จักอุปกรณ์และการออกแบบระบบ", description: "เจาะลึก Inverter, แผง Monocrystalline/Polycrystalline และการคำนวณโหลด", icon: "fa-microchip", color: "text-blue-500", durationSec: 15, locked: true, status: 'pending', preTest: [{ q: "หน้าที่หลักของ Inverter คืออะไร?", options: ["แปลง DC เป็น AC", "เก็บประจุไฟฟ้า", "ล้างแผงอัตโนมัติ"], ans: 0 }, { q: "หน่วยวัดกำลังการผลิตไฟฟ้าของแผงคือ?", options: ["Volt", "Ampere", "Watt"], ans: 2 }], postTest: [{ q: "แผงชนิดใดผลิตไฟได้ดีในพื้นที่จำกัด?", options: ["Polycrystalline", "Monocrystalline", "Amorphous"], ans: 1 }, { q: "แบตเตอรี่ชนิดใดนิยมใช้ในระบบ Solar ปัจจุบัน?", options: ["ตะกั่วกรด", "นิกเกิล", "ลิเธียม (Lithium)"], ans: 2 }] },
-            { id: 3, title: "ขั้นตอนการติดตั้งและเดินสายไฟ", description: "เทคนิคการยึดราง (Mounting), การเข้าหัว MC4 และการเชื่อมต่อระบบ", icon: "fa-tools", color: "text-green-500", durationSec: 20, locked: true, status: 'pending', preTest: [{ q: "ขั้วต่อสายไฟมาตรฐานสำหรับโซล่าเซลล์เรียกว่า?", options: ["RJ45", "USB", "MC4"], ans: 2 }, { q: "ทิศทางที่เหมาะสมที่สุดในการติดตั้งแผงในไทยคือ?", options: ["ทิศเหนือ", "ทิศใต้", "ทิศตะวันออก"], ans: 1 }], postTest: [{ q: "เครื่องมือใดใช้ย้ำหัว MC4?", options: ["คีมปากจิ้งจก", "คีมย้ำหางปลาเฉพาะทาง", "ค้อน"], ans: 1 }, { q: "ก่อนเปิดระบบ (Commissioning) ต้องตรวจสอบอะไร?", options: ["ล้างแผงให้สะอาด", "วัดค่าแรงดันและขั้วสาย", "ทาสีรางยึด"], ans: 1 }] }
-        ];
-
-        // Init Firebase Variables (Declared in Scope but initialized in initApp for safety)
-        let app, auth, db;
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-
-        // Paths
-        // We use PUBLIC data to allow sharing "users" across devices for this specific demo architecture
-        const USERS_COLLECTION = `artifacts/${appId}/public/data/solar_users`;
-        const PROGRESS_COLLECTION = `artifacts/${appId}/public/data/solar_progress`;
-
-        // State
-        window.currentUser = null;
-        window.runtimeCourseData = JSON.parse(JSON.stringify(window.courseData));
-        window.isRegisterMode = false;
-        let timerInterval = null;
-
-        // Initialize App
-        async function initApp() {
-            setLoading(true);
-            
-            // Safety Timeout: If loading takes too long (> 10s), stop loading and alert user.
-            const safetyTimer = setTimeout(() => {
-                setLoading(false);
-                alert("การเชื่อมต่อใช้เวลานานผิดปกติ\nหากคุณรันไฟล์นี้ภายนอก กรุณาตรวจสอบว่าได้ตั้งค่า firebaseConfig หรือยัง");
-            }, 10000);
-
-    
-                const firebaseConfig = {
-					apiKey: "AIzaSyDYA2Bs8k4amhQaOkIhC8_a9rXCtDv46SQ",
-					authDomain: "sola-web-e17e2.firebaseapp.com",
-					projectId: "sola-web-e17e2",
-					storageBucket: "sola-web-e17e2.firebasestorage.app",
-					messagingSenderId: "925097721244",
-					appId: "1:925097721244:web:9ad7993fe636fc1c68dc59",
-					measurementId: "G-XQVRP1FJGP"
-				};
-
-
-                // ถ้าไม่มีค่าจากระบบ (เช่น รันบนเครื่องตัวเอง) ให้ใช้ค่าด้านล่างนี้
-                if (!firebaseConfig) {
-                    firebaseConfig = {
-                        apiKey: "ใส่_API_KEY_ที่นี่",
-                        authDomain: "ใส่_PROJECT_ID.firebaseapp.com",
-                        projectId: "ใส่_PROJECT_ID",
-                        storageBucket: "ใส่_PROJECT_ID.firebasestorage.app",
-                        messagingSenderId: "ใส่_SENDER_ID",
-                        appId: "ใส่_APP_ID"
-                    };
-                }
-                // ==========================================
-
-                if (!firebaseConfig) {
-                    throw new Error("ไม่พบการตั้งค่า Firebase (firebaseConfig is missing)");
-                }
-
-                // 2. Initialize Firebase
-                app = initializeApp(firebaseConfig);
-                auth = getAuth(app);
-                db = getFirestore(app);
-                
-                // 3. Authenticate
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    await signInAnonymously(auth);
-                }
-                
-                // Success: Clear timeout and proceed
-                clearTimeout(safetyTimer);
-                setLoading(false);
-                showLogin();
-
-            } catch (error) {
-                clearTimeout(safetyTimer);
-                console.error("Auth/Init Error", error);
-                setLoading(false);
-                
-                // Render Error UI
-                document.body.innerHTML = `
-                    <div class="min-h-screen flex items-center justify-center bg-red-50 p-4">
-                        <div class="bg-white p-6 rounded-xl shadow-lg max-w-md text-center border-l-4 border-red-500">
-                            <i class="fa-solid fa-circle-exclamation text-4xl text-red-500 mb-4"></i>
-                            <h2 class="text-xl font-bold text-gray-800 mb-2">เกิดข้อผิดพลาดในการโหลด</h2>
-                            <p class="text-gray-600 mb-4 text-sm">${error.message}</p>
-                            <div class="bg-gray-100 p-3 rounded text-xs text-left text-gray-500 overflow-x-auto">
-                                <strong>วิธีแก้ไขเบื้องต้น:</strong><br>
-                                1. หากรันใน Preview: ลอง Refresh หน้าจอ<br>
-                                2. หากรันข้างนอก (GitHub/Local): คุณต้องแก้โค้ดส่วน <code>firebaseConfig</code> ให้เป็นของคุณเอง
-                            </div>
-                            <button onclick="location.reload()" class="mt-4 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition">ลองใหม่</button>
-                        </div>
-                    </div>
-                `;
-            }
-        }
-
-        // --- Auth Functions ---
-
-        window.toggleAuthMode = function() {
-            window.isRegisterMode = !window.isRegisterMode;
-            const title = document.querySelector('#auth-section h2');
-            const submitBtn = document.getElementById('auth-submit-btn');
-            const toggleText = document.getElementById('auth-toggle-text');
-            const toggleBtn = document.getElementById('auth-toggle-btn');
-            const regFields = document.getElementById('register-fields');
-            const adminHint = document.getElementById('admin-hint');
-
-            if (window.isRegisterMode) {
-                title.textContent = 'สมัครสมาชิก';
-                submitBtn.textContent = 'ลงทะเบียน';
-                toggleText.textContent = 'มีบัญชีอยู่แล้ว?';
-                toggleBtn.textContent = 'เข้าสู่ระบบ';
-                regFields.classList.remove('hidden');
-                adminHint.classList.add('hidden');
-                document.getElementById('login-form').reset();
-            } else {
-                title.textContent = 'เข้าสู่ระบบ';
-                submitBtn.textContent = 'เข้าสู่ระบบ';
-                toggleText.textContent = 'ยังไม่มีบัญชี?';
-                toggleBtn.textContent = 'สมัครสมาชิกใหม่';
-                regFields.classList.add('hidden');
-                adminHint.classList.remove('hidden');
-            }
-        }
-
-        document.getElementById('login-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const userIn = document.getElementById('login-username').value.trim();
-            const passIn = document.getElementById('login-password').value.trim();
-
-            if (!userIn || !passIn) return;
-            setLoading(true, 'กำลังตรวจสอบข้อมูล...');
-
-            try {
-                if (window.isRegisterMode) {
-                    // Register
-                    const fullname = document.getElementById('reg-fullname').value.trim();
-                    const occupation = document.getElementById('reg-occupation').value.trim();
-                    const education = document.getElementById('reg-education').value;
-                    const history = document.getElementById('reg-history').value.trim();
-
-                    if (!fullname || !occupation) {
-                        showToast('กรุณากรอกข้อมูลส่วนตัวให้ครบถ้วน');
-                        setLoading(false);
-                        return;
-                    }
-                    if (userIn.toLowerCase() === 'admin') {
-                        showToast('ชื่อนี้สงวนไว้');
-                        setLoading(false);
-                        return;
-                    }
-
-                    // Check duplicate
-                    const userRef = doc(db, USERS_COLLECTION, userIn);
-                    const userSnap = await getDoc(userRef);
-
-                    if (userSnap.exists()) {
-                        showToast('ชื่อผู้ใช้นี้ถูกใช้งานแล้ว');
-                        setLoading(false);
-                        return;
-                    }
-
-                    // Create User
-                    const newUser = {
-                        username: userIn,
-                        password: passIn,
-                        role: 'student',
-                        fullname, occupation, education, history: history || '-',
-                        createdAt: new Date().toISOString()
-                    };
-                    await setDoc(userRef, newUser);
+                <div class="relative z-10">
+                    <h1 class="text-3xl md:text-5xl font-bold mb-3 tracking-tight">การปลูกพืชในโรงเรือนเกษตรอัจฉริยะ</h1>
+                    <p class="text-emerald-50 text-xl opacity-90 font-light">Smart Greenhouse Plant Cultivation</p>
                     
-                    // Create empty progress
-                    await setDoc(doc(db, PROGRESS_COLLECTION, userIn), { progress: {} });
-
-                    showToast('ลงทะเบียนสำเร็จ! กรุณาเข้าสู่ระบบ');
-                    setLoading(false);
-                    window.toggleAuthMode();
-
-                } else {
-                    // Login
-                    if (userIn.toLowerCase() === 'admin' && passIn === '1234') {
-                        // Admin hardcoded for demo safety (no stored password needed for root admin)
-                        handleLoginSuccess({ username: 'Admin', role: 'admin' });
-                    } else {
-                        const userRef = doc(db, USERS_COLLECTION, userIn);
-                        const userSnap = await getDoc(userRef);
-
-                        if (userSnap.exists()) {
-                            const userData = userSnap.data();
-                            if (userData.password === passIn) {
-                                handleLoginSuccess(userData);
-                            } else {
-                                showToast('รหัสผ่านไม่ถูกต้อง');
-                            }
-                        } else {
-                            showToast('ไม่พบผู้ใช้งานนี้');
-                        }
-                    }
-                    setLoading(false);
-                }
-            } catch (err) {
-                console.error(err);
-                showToast('เกิดข้อผิดพลาด: ' + err.message);
-                setLoading(false);
-            }
-        });
-
-        function handleLoginSuccess(user) {
-            window.currentUser = user;
-            showApp(user);
-        }
-
-        window.logout = function() {
-            window.currentUser = null;
-            clearInterval(timerInterval);
-            showLogin();
-        }
-
-        function showLogin() {
-            document.getElementById('auth-section').classList.remove('hidden');
-            document.getElementById('app-container').classList.add('hidden');
-            document.getElementById('admin-section').classList.add('hidden');
-            document.getElementById('nav-user-info').classList.add('hidden');
-            if(window.isRegisterMode) window.toggleAuthMode();
-        }
-
-        async function showApp(user) {
-            document.getElementById('auth-section').classList.add('hidden');
-            document.getElementById('nav-user-info').classList.remove('hidden');
-            
-            document.getElementById('user-name-display').textContent = user.username;
-            document.getElementById('user-role-display').textContent = user.role === 'admin' ? 'Administrator' : 'Student';
-
-            if (user.role === 'admin') {
-                document.getElementById('admin-section').classList.remove('hidden');
-                document.getElementById('app-container').classList.add('hidden');
-                document.getElementById('student-progress-bar').classList.add('hidden');
-                await renderAdminDashboard();
-            } else {
-                document.getElementById('admin-section').classList.add('hidden');
-                document.getElementById('app-container').classList.remove('hidden');
-                document.getElementById('student-progress-bar').classList.remove('hidden');
-                await loadStudentProgress(user.username);
-                renderDashboard();
-                updateGlobalProgress();
-            }
-        }
-
-        window.handleLogoClick = function() {
-            if (!window.currentUser) return;
-            if (window.currentUser.role === 'admin') {
-                renderAdminDashboard();
-            } else {
-                goHome();
-            }
-        }
-
-        // --- Data Logic (Firestore) ---
-
-        async function loadStudentProgress(username) {
-            setLoading(true, 'กำลังโหลดข้อมูลการเรียน...');
-            try {
-                const progRef = doc(db, PROGRESS_COLLECTION, username);
-                const snap = await getDoc(progRef);
-                
-                let savedProgress = {};
-                if (snap.exists()) {
-                    savedProgress = snap.data().progress || {};
-                }
-
-                window.runtimeCourseData = JSON.parse(JSON.stringify(window.courseData));
-                window.runtimeCourseData.forEach(lesson => {
-                    if (savedProgress[lesson.id]) {
-                        lesson.status = savedProgress[lesson.id].status;
-                        lesson.locked = savedProgress[lesson.id].locked;
-                    } else if (lesson.id === 1) {
-                        lesson.locked = false;
-                    }
-                });
-            } catch (err) {
-                console.error(err);
-            }
-            setLoading(false);
-        }
-
-        async function saveProgress() {
-            if (!window.currentUser || window.currentUser.role !== 'student') return;
-
-            const progressToSave = {};
-            window.runtimeCourseData.forEach(lesson => {
-                progressToSave[lesson.id] = {
-                    status: lesson.status,
-                    locked: lesson.locked
-                };
-            });
-
-            try {
-                const progRef = doc(db, PROGRESS_COLLECTION, window.currentUser.username);
-                await updateDoc(progRef, { progress: progressToSave });
-                updateGlobalProgress();
-            } catch (err) {
-                // If update fails (doc might not exist), try set
-                try {
-                     await setDoc(doc(db, PROGRESS_COLLECTION, window.currentUser.username), { progress: progressToSave });
-                } catch(e) { console.error("Save error", e); }
-            }
-        }
-
-        function updateGlobalProgress() {
-            const completed = window.runtimeCourseData.filter(c => c.status === 'completed').length;
-            const total = window.runtimeCourseData.length;
-            const percentage = (completed / total) * 100;
-            document.getElementById('global-progress').style.width = `${percentage}%`;
-        }
-
-        // --- Admin Dashboard ---
-
-        window.renderAdminDashboard = async function() {
-            setLoading(true, 'กำลังดึงข้อมูลนักเรียน...');
-            const list = document.getElementById('admin-user-list');
-            list.innerHTML = '';
-
-            try {
-                // Fetch Users
-                const usersSnap = await getDocs(collection(db, USERS_COLLECTION));
-                const users = [];
-                usersSnap.forEach(doc => users.push(doc.data()));
-
-                // Fetch Progress
-                const progSnap = await getDocs(collection(db, PROGRESS_COLLECTION));
-                const allProgress = {};
-                progSnap.forEach(doc => allProgress[doc.id] = doc.data().progress);
-
-                document.getElementById('admin-total-users').textContent = users.length;
-
-                if (users.length === 0) {
-                    list.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-gray-400">ยังไม่มีนักเรียนลงทะเบียน</td></tr>`;
-                    setLoading(false);
-                    return;
-                }
-
-                users.forEach(u => {
-                    const userProg = allProgress[u.username] || {};
-                    let completedCount = 0;
-                    Object.values(userProg).forEach(p => { if (p.status === 'completed') completedCount++; });
-                    const percent = Math.round((completedCount / window.courseData.length) * 100);
-
-                    let statusColor = 'bg-gray-200 text-gray-600';
-                    if(percent > 0 && percent < 100) statusColor = 'bg-yellow-100 text-yellow-700';
-                    if(percent === 100) statusColor = 'bg-green-100 text-green-700';
-
-                    // Prepare user object for modal
-                    const userString = encodeURIComponent(JSON.stringify(u));
-
-                    const html = `
-                        <tr class="hover:bg-gray-50 transition-colors border-b border-gray-100 last:border-0">
-                            <td class="p-4">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-xs">
-                                        ${u.username.substring(0,2).toUpperCase()}
-                                    </div>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-gray-700">${u.username}</span>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="p-4 text-gray-600 text-sm">${u.fullname || '-'}</td>
-                            <td class="p-4 text-gray-600 text-sm">${u.occupation || '-'}</td>
-                            <td class="p-4 text-center">
-                                <span class="px-3 py-1 rounded-full text-xs font-bold ${statusColor}">${percent}%</span>
-                            </td>
-                            <td class="p-4 text-center">
-                                <div class="flex justify-center gap-2">
-                                    <button onclick="window.openUserModal('${userString}')" class="text-blue-500 hover:text-blue-700 text-sm border border-blue-200 hover:bg-blue-50 px-3 py-1 rounded-lg transition-colors">
-                                        <i class="fa-solid fa-address-card"></i>
-                                    </button>
-                                    <button onclick="window.resetUser('${u.username}')" class="text-red-500 hover:text-red-700 text-sm border border-red-200 hover:bg-red-50 px-3 py-1 rounded-lg transition-colors">
-                                        <i class="fa-solid fa-rotate-left"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    `;
-                    list.innerHTML += html;
-                });
-
-            } catch (err) {
-                console.error(err);
-                showToast("ไม่สามารถโหลดข้อมูล Admin ได้");
-            }
-            setLoading(false);
-        }
-
-        window.openUserModal = function(userStr) {
-            const user = JSON.parse(decodeURIComponent(userStr));
-            document.getElementById('modal-username').textContent = user.username;
-            document.getElementById('modal-fullname').textContent = user.fullname || '-';
-            document.getElementById('modal-occupation').textContent = user.occupation || '-';
-            document.getElementById('modal-education').textContent = user.education || '-';
-            document.getElementById('modal-history').textContent = user.history || '-';
-            
-            const modal = document.getElementById('user-detail-modal');
-            modal.classList.remove('hidden');
-            setTimeout(() => {
-                modal.classList.add('modal-enter-active');
-                modal.classList.remove('modal-enter');
-            }, 10);
-        }
-
-        window.closeUserModal = function() {
-            const modal = document.getElementById('user-detail-modal');
-            modal.classList.add('modal-exit-active');
-            setTimeout(() => {
-                modal.classList.add('hidden');
-                modal.classList.remove('modal-exit-active');
-            }, 200);
-        }
-
-        window.resetUser = async function(username) {
-            if(confirm(`ต้องการรีเซ็ตการเรียนของ ${username} ใช่หรือไม่?`)) {
-                setLoading(true);
-                try {
-                    await setDoc(doc(db, PROGRESS_COLLECTION, username), { progress: {} });
-                    showToast(`รีเซ็ตข้อมูลเรียบร้อย`);
-                    await renderAdminDashboard();
-                } catch(err) {
-                    showToast("เกิดข้อผิดพลาด");
-                }
-                setLoading(false);
-            }
-        }
-
-        // --- Render Functions (Student) ---
-
-        window.renderDashboard = function() {
-            const container = document.getElementById('app-container');
-            let html = `
-                <div class="mb-6 animate-fade-in-down">
-                    <h2 class="text-2xl font-bold text-gray-800">ยินดีต้อนรับ, ${window.currentUser.fullname || window.currentUser.username}</h2>
-                    <p class="text-gray-600">เลือกบทเรียนเพื่อเริ่มการฝึกฝน</p>
+                    <div class="mt-8 flex flex-wrap gap-4">
+                        <span class="bg-white/20 backdrop-blur-md px-5 py-2 rounded-full flex items-center gap-2 text-sm border border-white/10">
+                            <i data-lucide="clock" class="w-4 h-4"></i> รวม 18 ชั่วโมง
+                        </span>
+                        <span class="bg-white/20 backdrop-blur-md px-5 py-2 rounded-full flex items-center gap-2 text-sm border border-white/10">
+                            รหัสหลักสูตร 0930016260107
+                        </span>
+                    </div>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            `;
+            </div>
 
-            window.runtimeCourseData.forEach(lesson => {
-                const isLocked = lesson.locked;
-                const isCompleted = lesson.status === 'completed';
-                const opacity = isLocked ? 'opacity-60 grayscale' : 'opacity-100';
-                const cursor = isLocked ? 'cursor-not-allowed' : 'cursor-pointer';
-                const clickHandler = isLocked ? '' : `onclick="startLesson(${lesson.id})"`;
+            <div class="p-6 md:p-12 space-y-16">
                 
-                let badge = '';
-                if (isCompleted) badge = `<span class="absolute top-3 right-3 bg-green-500 text-white text-xs px-2 py-1 rounded-full"><i class="fa-solid fa-check"></i> ผ่านแล้ว</span>`;
-                else if (isLocked) badge = `<span class="absolute top-3 right-3 bg-gray-400 text-white text-xs px-2 py-1 rounded-full"><i class="fa-solid fa-lock"></i> ล็อก</span>`;
-                else badge = `<span class="absolute top-3 right-3 bg-yellow-500 text-white text-xs px-2 py-1 rounded-full"><i class="fa-solid fa-play"></i> เริ่มเรียน</span>`;
-
-                html += `
-                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 relative transition-all duration-300 ${isLocked ? '' : 'card-hover'} ${opacity} ${cursor}" ${clickHandler}>
-                        ${badge}
-                        <div class="w-14 h-14 rounded-xl bg-blue-50 flex items-center justify-center text-2xl mb-4 ${lesson.color}">
-                            <i class="fa-solid ${lesson.icon}"></i>
+                <!-- Section 1: Qualifications -->
+                <section>
+                    <div class="flex items-center gap-4 mb-8">
+                        <div class="bg-emerald-100 p-3 rounded-2xl text-emerald-700 shadow-sm">
+                            <i data-lucide="user-check" class="w-6 h-6"></i>
                         </div>
-                        <h3 class="font-bold text-lg mb-2">${lesson.title}</h3>
-                        <p class="text-sm text-gray-500 mb-4 h-10 overflow-hidden">${lesson.description}</p>
-                        <div class="flex items-center justify-between text-xs text-gray-400 border-t pt-3">
-                            <span><i class="fa-regular fa-clock"></i> ${lesson.durationSec} วินาที</span>
-                            <span>${lesson.preTest.length + lesson.postTest.length} ข้อสอบ</span>
+                        <h2 class="text-2xl font-bold text-slate-900">คุณสมบัติผู้เข้าอบรม</h2>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                        <div class="bg-emerald-50/40 border border-emerald-100 p-6 rounded-[1.5rem] flex flex-col items-center text-center group hover:bg-emerald-50 transition-all duration-300 shadow-sm">
+                            <div class="text-emerald-600 mb-4 bg-white p-3 rounded-full shadow-sm group-hover:scale-110 transition-transform"><i data-lucide="user-check" class="w-6 h-6"></i></div>
+                            <span class="font-bold text-slate-800">อายุ 18 ปีขึ้นไป</span>
+                        </div>
+                        <div class="bg-emerald-50/40 border border-emerald-100 p-6 rounded-[1.5rem] flex flex-col items-center text-center group hover:bg-emerald-50 transition-all duration-300 shadow-sm">
+                            <div class="text-emerald-600 mb-4 bg-white p-3 rounded-full shadow-sm group-hover:scale-110 transition-transform"><i data-lucide="graduation-cap" class="w-6 h-6"></i></div>
+                            <span class="font-bold text-slate-800 text-sm">จบ ม.3 หรือเทียบเท่าขึ้นไป</span>
+                        </div>
+                        <div class="bg-emerald-50/40 border border-emerald-100 p-6 rounded-[1.5rem] flex flex-col items-center text-center group hover:bg-emerald-50 transition-all duration-300 shadow-sm">
+                            <div class="text-emerald-600 mb-4 bg-white p-3 rounded-full shadow-sm group-hover:scale-110 transition-transform"><i data-lucide="leaf" class="w-6 h-6"></i></div>
+                            <span class="font-bold text-slate-800">สนใจเกษตรอัจฉริยะ</span>
+                        </div>
+                        <div class="bg-emerald-50/40 border border-emerald-100 p-6 rounded-[1.5rem] flex flex-col items-center text-center group hover:bg-emerald-50 transition-all duration-300 shadow-sm">
+                            <div class="text-emerald-600 mb-4 bg-white p-3 rounded-full shadow-sm group-hover:scale-110 transition-transform"><i data-lucide="shield-check" class="w-6 h-6"></i></div>
+                            <span class="font-bold text-slate-800">ร่างกายพร้อมสำหรับการฝึก</span>
                         </div>
                     </div>
-                `;
-            });
-            html += `</div>`;
-            container.innerHTML = html;
-        }
+                </section>
 
-        window.startLesson = function(id) {
-            const lesson = window.runtimeCourseData.find(c => c.id === id);
-            if (lesson.status === 'pending') renderQuiz(id, 'pre');
-            else if (lesson.status === 'pretest_pass') renderVideo(id);
-            else if (lesson.status === 'watched') renderQuiz(id, 'post');
-            else if (lesson.status === 'completed') {
-                if(confirm('ต้องการดูวิดีโอทบทวนหรือไม่?')) renderVideo(id, true);
-            }
-        }
-
-        window.renderQuiz = function(id, type) {
-            const lesson = window.runtimeCourseData.find(c => c.id === id);
-            const questions = type === 'pre' ? lesson.preTest : lesson.postTest;
-            const title = type === 'pre' ? 'แบบทดสอบก่อนเรียน' : 'แบบทดสอบหลังเรียน';
-            const color = type === 'pre' ? 'bg-orange-500' : 'bg-indigo-600';
-
-            const container = document.getElementById('app-container');
-            let html = `
-                <div class="max-w-2xl mx-auto bg-white rounded-3xl shadow-xl overflow-hidden animate-fade-in-up">
-                    <div class="${color} p-6 text-white text-center relative">
-                        <button onclick="goHome()" class="absolute top-4 left-4 text-white opacity-70 hover:opacity-100"><i class="fa-solid fa-arrow-left"></i> กลับ</button>
-                        <h2 class="text-2xl font-bold">${title}</h2>
-                        <p class="text-sm opacity-90">${lesson.title}</p>
+                <!-- Section 2: Core Subjects -->
+                <section>
+                    <div class="flex items-center gap-4 mb-8">
+                        <div class="bg-blue-100 p-3 rounded-2xl text-blue-700 shadow-sm">
+                            <i data-lucide="settings" class="w-6 h-6"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-slate-900">หัวข้อวิชาที่น่าสนใจ</h2>
                     </div>
-                    <div class="p-8">
-                        <form id="quiz-form">
-            `;
-            questions.forEach((q, index) => {
-                html += `
-                    <div class="mb-6"><p class="font-semibold text-lg mb-3 text-gray-700">${index + 1}. ${q.q}</p>
-                    <div class="space-y-2">
-                `;
-                q.options.forEach((opt, optIndex) => {
-                    html += `
-                        <label class="flex items-center p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-blue-50 transition-colors">
-                            <input type="radio" name="q${index}" value="${optIndex}" class="mr-3 w-4 h-4 text-blue-600 focus:ring-blue-500" required>
-                            <span class="text-gray-600">${opt}</span>
-                        </label>`;
-                });
-                html += `</div></div>`;
-            });
-            html += `<button type="submit" class="w-full ${color} text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-xl transition-all">ส่งคำตอบ</button></form></div></div>`;
-            container.innerHTML = html;
-            
-            document.getElementById('quiz-form').addEventListener('submit', (e) => {
-                e.preventDefault();
-                checkQuiz(id, type, questions);
-            });
-        }
-
-        function checkQuiz(id, type, questions) {
-            const formData = new FormData(document.getElementById('quiz-form'));
-            let score = 0;
-            questions.forEach((q, index) => {
-                if (parseInt(formData.get(`q${index}`)) === q.ans) score++;
-            });
-            
-            const passed = type === 'pre' ? true : (score >= Math.ceil(questions.length / 2));
-
-            if (passed) {
-                const lesson = window.runtimeCourseData.find(c => c.id === id);
-                if (type === 'pre') {
-                    lesson.status = 'pretest_pass';
-                    showToast('บันทึกผลการทดสอบก่อนเรียนแล้ว');
-                    saveProgress(); // Async save
-                    renderVideo(id);
-                } else {
-                    lesson.status = 'completed';
-                    const nextLesson = window.runtimeCourseData.find(c => c.id === id + 1);
-                    if (nextLesson) nextLesson.locked = false;
-                    saveProgress(); // Async save
-                    renderSuccess(id, score, questions.length);
-                }
-            } else {
-                alert(`คุณได้คะแนน ${score}/${questions.length} พยายามอีกครั้งนะ!`);
-            }
-        }
-
-        window.renderVideo = function(id, reviewMode = false) {
-            const lesson = window.runtimeCourseData.find(c => c.id === id);
-            const container = document.getElementById('app-container');
-            let html = `
-                <div class="max-w-4xl mx-auto animate-fade-in">
-                    <button onclick="goHome()" class="mb-4 text-gray-500 hover:text-gray-800 flex items-center gap-2"><i class="fa-solid fa-arrow-left"></i> กลับหน้าหลัก</button>
-                    <div class="bg-white p-6 rounded-2xl shadow-lg">
-                        <div class="flex justify-between items-center mb-4">
-                            <h2 class="text-2xl font-bold text-gray-800">${lesson.title}</h2>
-                            <span class="bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-xs font-bold">บทเรียนวิดีโอ</span>
-                        </div>
-                        <div class="video-container bg-slate-900 relative rounded-xl shadow-inner">
-                             <div class="absolute inset-0 flex flex-col items-center justify-center text-white z-0 opacity-50">
-                                <i class="fa-solid fa-play-circle text-6xl mb-4"></i>
-                                <p>วิดีโอจำลอง: ${lesson.title}</p>
-                             </div>
-                             <div id="video-overlay" class="video-overlay" onclick="window.playVideo(${lesson.durationSec}, ${id}, ${reviewMode})">
-                                <div class="bg-white/20 backdrop-blur-sm p-6 rounded-full border border-white/30 hover:bg-white/30 transition-all transform hover:scale-110">
-                                    <i class="fa-solid fa-play text-white text-4xl ml-2"></i>
-                                </div>
-                             </div>
-                        </div>
-                        <div class="mt-6">
-                            <div class="flex justify-between text-sm text-gray-500 mb-1">
-                                <span id="time-display">00:00</span>
-                                <span>00:${lesson.durationSec}</span>
-                            </div>
-                            <div class="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
-                                <div id="video-progress" class="bg-gradient-to-r from-blue-400 to-blue-600 h-3 rounded-full transition-all duration-1000 ease-linear" style="width: 0%"></div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="flex gap-5 p-6 rounded-2xl border border-slate-100 hover:shadow-xl hover:border-blue-100 transition-all bg-white group">
+                            <div class="bg-slate-50 text-slate-400 group-hover:bg-blue-600 group-hover:text-white transition-colors w-14 h-14 rounded-2xl flex items-center justify-center font-bold text-xl flex-shrink-0 shadow-inner">1</div>
+                            <div>
+                                <h3 class="font-bold text-lg text-slate-900 mb-2">ความปลอดภัยในการทำงาน</h3>
+                                <p class="text-sm text-slate-500 leading-relaxed">กฎระเบียบ การป้องกันอันตราย และการปฐมพยาบาลเบื้องต้น</p>
                             </div>
                         </div>
-                        <div class="mt-6 p-4 bg-yellow-50 rounded-lg border border-yellow-100">
-                            <h4 class="font-bold text-yellow-800 mb-2"><i class="fa-solid fa-lightbulb"></i> เคล็ดลับการเรียน</h4>
-                            <p class="text-sm text-yellow-700">ดูให้จบเพื่อปลดล็อกแบบทดสอบหลังเรียน ระบบจะบันทึกอัตโนมัติ</p>
+                        <div class="flex gap-5 p-6 rounded-2xl border border-slate-100 hover:shadow-xl hover:border-blue-100 transition-all bg-white group">
+                            <div class="bg-slate-50 text-slate-400 group-hover:bg-blue-600 group-hover:text-white transition-colors w-14 h-14 rounded-2xl flex items-center justify-center font-bold text-xl flex-shrink-0 shadow-inner">2</div>
+                            <div>
+                                <h3 class="font-bold text-lg text-slate-900 mb-2">ความสำคัญของเกษตรอัจฉริยะ</h3>
+                                <p class="text-sm text-slate-500 leading-relaxed">การผลิตอาหารปลอดภัย ยั่งยืน และบทบาทของผู้ผลิตยุคใหม่</p>
+                            </div>
                         </div>
-                        <div id="next-step-btn" class="mt-6 hidden">
-                            <button onclick="renderQuiz(${id}, 'post')" class="w-full bg-indigo-600 text-white font-bold py-3 rounded-xl hover:bg-indigo-700 transition-colors shadow-md">ทำแบบทดสอบหลังเรียน <i class="fa-solid fa-arrow-right ml-2"></i></button>
+                        <div class="flex gap-5 p-6 rounded-2xl border border-slate-100 hover:shadow-xl hover:border-blue-100 transition-all bg-white group">
+                            <div class="bg-slate-50 text-slate-400 group-hover:bg-blue-600 group-hover:text-white transition-colors w-14 h-14 rounded-2xl flex items-center justify-center font-bold text-xl flex-shrink-0 shadow-inner">3</div>
+                            <div>
+                                <h3 class="font-bold text-lg text-slate-900 mb-2">โครงสร้างและระบบ IOT</h3>
+                                <p class="text-sm text-slate-500 leading-relaxed">ส่วนประกอบโรงเรือน การจัดการระบบน้ำ ปุ๋ย และเทคโนโลยี IOT</p>
+                            </div>
                         </div>
-                         <div id="review-btn" class="mt-6 hidden">
-                            <button onclick="goHome()" class="w-full bg-gray-600 text-white font-bold py-3 rounded-xl hover:bg-gray-700 transition-colors shadow-md">กลับหน้าหลัก</button>
-                        </div>
-                    </div>
-                </div>`;
-            container.innerHTML = html;
-        }
-
-        window.playVideo = function(duration, id, reviewMode) {
-            document.getElementById('video-overlay').style.display = 'none';
-            let current = 0;
-            if(timerInterval) clearInterval(timerInterval);
-            timerInterval = setInterval(() => {
-                current++;
-                const percentage = (current / duration) * 100;
-                document.getElementById('video-progress').style.width = `${percentage}%`;
-                const mins = Math.floor(current / 60);
-                const secs = current % 60;
-                document.getElementById('time-display').innerText = `${mins < 10 ? '0'+mins : mins}:${secs < 10 ? '0'+secs : secs}`;
-
-                if (current >= duration) {
-                    clearInterval(timerInterval);
-                    showToast('ดูวิดีโอจบแล้ว!');
-                    if(!reviewMode) {
-                        const lesson = window.runtimeCourseData.find(c => c.id === id);
-                        if (lesson.status !== 'completed') {
-                             lesson.status = 'watched';
-                             saveProgress();
-                        }
-                        document.getElementById('next-step-btn').classList.remove('hidden');
-                    } else {
-                        document.getElementById('review-btn').classList.remove('hidden');
-                    }
-                }
-            }, 1000);
-        }
-
-        window.renderSuccess = function(id, score, total) {
-            const lesson = window.runtimeCourseData.find(c => c.id === id);
-            document.getElementById('app-container').innerHTML = `
-                <div class="flex items-center justify-center min-h-[50vh]">
-                    <div class="bg-white p-8 rounded-3xl shadow-2xl text-center max-w-md w-full animate-fade-in-up border-t-8 border-green-400">
-                        <div class="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6"><i class="fa-solid fa-trophy text-5xl text-yellow-500 drop-shadow-sm"></i></div>
-                        <h2 class="text-3xl font-bold text-gray-800 mb-2">ยินดีด้วย!</h2>
-                        <p class="text-gray-500 mb-6">คุณผ่านบทเรียน "${lesson.title}" เรียบร้อยแล้ว</p>
-                        <div class="bg-gray-50 rounded-xl p-4 mb-6"><p class="text-sm text-gray-500">คะแนนของคุณ</p><p class="text-4xl font-bold text-indigo-600">${score} / ${total}</p></div>
-                        <div class="flex gap-3">
-                            <button onclick="goHome()" class="flex-1 bg-gray-200 text-gray-700 py-3 rounded-xl font-semibold">หน้าหลัก</button>
-                             ${window.runtimeCourseData[id] ? `<button onclick="startLesson(${id+1})" class="flex-1 bg-green-500 text-white py-3 rounded-xl font-semibold shadow-lg">บทต่อไป <i class="fa-solid fa-arrow-right"></i></button>` : `<button onclick="goHome()" class="flex-1 bg-yellow-500 text-white py-3 rounded-xl font-semibold shadow-lg">จบคอร์ส</button>`}
+                        <div class="flex gap-5 p-6 rounded-2xl border border-slate-100 hover:shadow-xl hover:border-blue-100 transition-all bg-white group">
+                            <div class="bg-slate-50 text-slate-400 group-hover:bg-blue-600 group-hover:text-white transition-colors w-14 h-14 rounded-2xl flex items-center justify-center font-bold text-xl flex-shrink-0 shadow-inner">4</div>
+                            <div>
+                                <h3 class="font-bold text-lg text-slate-900 mb-2">การบำรุงรักษาเบื้องต้น</h3>
+                                <p class="text-sm text-slate-500 leading-relaxed">ดูแลระบบไฟฟ้า การระบายอากาศ และระบบระบายน้ำให้พร้อมใช้งาน</p>
+                            </div>
                         </div>
                     </div>
-                </div>`;
-        }
+                </section>
 
-        window.goHome = function() {
-            clearInterval(timerInterval);
-            renderDashboard();
-        }
+                <!-- Section 3: Practice Stations -->
+                <section class="bg-slate-900 rounded-[2.5rem] p-8 md:p-12 text-white relative overflow-hidden shadow-2xl">
+                    <div class="absolute bottom-0 right-0 opacity-10 -mb-8 -mr-8">
+                        <i data-lucide="cpu" size="200"></i>
+                    </div>
+                    <div class="flex items-center gap-4 mb-10">
+                        <div class="bg-emerald-500 p-3 rounded-2xl text-white shadow-lg shadow-emerald-500/20">
+                            <i data-lucide="sprout" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-2xl font-bold">5 สถานีฝึกปฏิบัติ</h2>
+                            <p class="text-emerald-400 text-sm">เจาะลึกภาคปฏิบัติรวม 12 ชั่วโมง</p>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 md:grid-cols-5 gap-6 relative z-10">
+                        <div class="group flex flex-col items-center text-center">
+                            <div class="bg-white/10 group-hover:bg-emerald-500 group-hover:scale-110 transition-all duration-300 w-16 h-16 rounded-2xl flex items-center justify-center mb-4 border border-white/10 shadow-lg">
+                                <i data-lucide="layout" class="w-8 h-8"></i>
+                            </div>
+                            <p class="text-xs font-semibold uppercase tracking-widest text-emerald-500 mb-1">สถานีที่ 1</p>
+                            <p class="text-sm font-medium text-slate-200">ตรวจสอบโครงสร้าง</p>
+                        </div>
+                        <div class="group flex flex-col items-center text-center">
+                            <div class="bg-white/10 group-hover:bg-emerald-500 group-hover:scale-110 transition-all duration-300 w-16 h-16 rounded-2xl flex items-center justify-center mb-4 border border-white/10 shadow-lg">
+                                <i data-lucide="droplets" class="w-8 h-8"></i>
+                            </div>
+                            <p class="text-xs font-semibold uppercase tracking-widest text-emerald-500 mb-1">สถานีที่ 2</p>
+                            <p class="text-sm font-medium text-slate-200">ระบบน้ำและซ่อมบำรุง</p>
+                        </div>
+                        <div class="group flex flex-col items-center text-center">
+                            <div class="bg-white/10 group-hover:bg-emerald-500 group-hover:scale-110 transition-all duration-300 w-16 h-16 rounded-2xl flex items-center justify-center mb-4 border border-white/10 shadow-lg">
+                                <i data-lucide="sprout" class="w-8 h-8"></i>
+                            </div>
+                            <p class="text-xs font-semibold uppercase tracking-widest text-emerald-500 mb-1">สถานีที่ 3</p>
+                            <p class="text-sm font-medium text-slate-200">การเตรียมวัสดุและเพาะเมล็ด</p>
+                        </div>
+                        <div class="group flex flex-col items-center text-center">
+                            <div class="bg-white/10 group-hover:bg-emerald-500 group-hover:scale-110 transition-all duration-300 w-16 h-16 rounded-2xl flex items-center justify-center mb-4 border border-white/10 shadow-lg">
+                                <i data-lucide="cpu" class="w-8 h-8"></i>
+                            </div>
+                            <p class="text-xs font-semibold uppercase tracking-widest text-emerald-500 mb-1">สถานีที่ 4</p>
+                            <p class="text-sm font-medium text-slate-200">สารชีวภัณฑ์และปุ๋ย</p>
+                        </div>
+                        <div class="group flex flex-col items-center text-center">
+                            <div class="bg-white/10 group-hover:bg-emerald-500 group-hover:scale-110 transition-all duration-300 w-16 h-16 rounded-2xl flex items-center justify-center mb-4 border border-white/10 shadow-lg">
+                                <i data-lucide="calendar" class="w-8 h-8"></i>
+                            </div>
+                            <p class="text-xs font-semibold uppercase tracking-widest text-emerald-500 mb-1">สถานีที่ 5</p>
+                            <p class="text-sm font-medium text-slate-200">ปฏิทินการจัดการพืช</p>
+                        </div>
+                    </div>
+                </section>
 
-        function showToast(msg) {
-            const toast = document.getElementById('toast');
-            document.getElementById('toast-message').textContent = msg;
-            toast.classList.remove('opacity-0');
-            toast.classList.add('opacity-100', 'bottom-10');
-            setTimeout(() => {
-                toast.classList.remove('opacity-100', 'bottom-10');
-                toast.classList.add('opacity-0');
-            }, 3000);
-        }
+                <!-- Footer Info -->
+                <div class="pt-10 border-t border-slate-100 flex flex-col md:flex-row justify-between items-center gap-8">
+                    <div class="flex items-center gap-5">
+                        <div class="bg-emerald-600 text-white p-4 rounded-2xl shadow-lg shadow-emerald-600/20">
+                            <i data-lucide="graduation-cap" class="w-8 h-8"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-400 font-bold uppercase tracking-[0.2em]">รับวุฒิบัตรจาก</p>
+                            <p class="text-xl font-bold text-slate-800">กรมพัฒนาฝีมือแรงงาน</p>
+                        </div>
+                    </div>
+                    <div class="text-center md:text-right space-y-1">
+                        <p class="text-slate-600 font-medium bg-slate-100 px-4 py-1 rounded-full inline-block">เกณฑ์ผ่าน: เวลาเรียน > 80% และประเมิน > 60%</p>
+                        <p class="text-xs text-slate-400 mt-2">จัดทำโดย กองพัฒนาผู้ฝึกและเทคโนโลยีการฝึก</p>
+                    </div>
+                </div>
 
-        function setLoading(active, msg) {
-            const loader = document.getElementById('loading-overlay');
-            if (active) {
-                loader.style.display = 'flex';
-                if(msg) document.getElementById('loading-text').textContent = msg;
-                // Show hint after 3 seconds
-                setTimeout(() => {
-                   if(loader.style.display !== 'none') document.getElementById('loading-subtext').classList.remove('hidden');
-                }, 3000);
-            } else {
-                loader.style.display = 'none';
-            }
-        }
+            </div>
+        </div>
+    </div>
 
-        // Animations CSS
-        const styleSheet = document.createElement("style");
-        styleSheet.innerText = `
-            @keyframes fadeInDown { from { opacity: 0; transform: translate3d(0, -20px, 0); } to { opacity: 1; transform: translate3d(0, 0, 0); } }
-            @keyframes fadeInUp { from { opacity: 0; transform: translate3d(0, 20px, 0); } to { opacity: 1; transform: translate3d(0, 0, 0); } }
-            @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-            .animate-fade-in-down { animation: fadeInDown 0.5s ease-out; }
-            .animate-fade-in-up { animation: fadeInUp 0.5s ease-out; }
-            .animate-fade-in { animation: fadeIn 0.8s ease-out; }
-        `;
-        document.head.appendChild(styleSheet);
-
-        // Start
-        initApp();
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
     </script>
 </body>
 </html>
