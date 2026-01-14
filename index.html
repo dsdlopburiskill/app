@@ -3,228 +3,419 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>อินโฟกราฟิก: การปลูกพืชในโรงเรือนเกษตรอัจฉริยะ</title>
-    <!-- Tailwind CSS CDN -->
+    <title>หลักสูตรการปลูกพืชในโรงเรือนเกษตรอัจฉริยะ</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Noto Sans Thai -->
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Noto Sans Thai', sans-serif;
+            font-family: 'Sarabun', sans-serif;
         }
-        .gradient-bg {
-            background: linear-gradient(135deg, #059669 0%, #0f766e 100%);
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s ease;
+        }
+        .accordion-content.active {
+            max-height: 500px;
+            padding-bottom: 1.25rem;
+        }
+        .rotate-180 {
+            transform: rotate(180deg);
         }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 antialiased">
+<body class="bg-slate-50 text-slate-800 p-4 md:p-8">
 
-    <div class="min-h-screen p-4 md:p-8">
-        <div class="max-w-4xl mx-auto bg-white rounded-[2rem] shadow-2xl overflow-hidden border border-emerald-100">
-            
-            <!-- Header Section -->
-            <div class="gradient-bg p-8 md:p-12 text-white relative overflow-hidden">
-                <div class="absolute top-0 right-0 opacity-10 -mr-12 -mt-12">
-                    <i data-lucide="leaf" size="240"></i>
-                </div>
-                <div class="relative z-10">
-                    <h1 class="text-3xl md:text-5xl font-bold mb-3 tracking-tight">การปลูกพืชในโรงเรือนเกษตรอัจฉริยะ</h1>
-                    <p class="text-emerald-50 text-xl opacity-90 font-light">Smart Greenhouse Plant Cultivation</p>
-                    
-                    <div class="mt-8 flex flex-wrap gap-4">
-                        <span class="bg-white/20 backdrop-blur-md px-5 py-2 rounded-full flex items-center gap-2 text-sm border border-white/10">
-                            <i data-lucide="clock" class="w-4 h-4"></i> รวม 18 ชั่วโมง
-                        </span>
-                        <span class="bg-white/20 backdrop-blur-md px-5 py-2 rounded-full flex items-center gap-2 text-sm border border-white/10">
-                            รหัสหลักสูตร 0930016260107
-                        </span>
+    <div class="max-w-4xl mx-auto bg-white shadow-2xl rounded-3xl overflow-hidden border border-slate-100">
+        
+        <!-- Header Section -->
+        <div class="bg-gradient-to-r from-green-700 to-emerald-600 p-8 text-white relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16 blur-2xl"></div>
+            <div class="relative z-10">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 gap-2">
+                    <div class="bg-white/20 px-3 py-1 rounded-full text-xs font-semibold backdrop-blur-sm">
+                        รหัสหลักสูตร 0930016260107
+                    </div>
+                    <div class="text-emerald-100 text-sm">
+                        กรมพัฒนาฝีมือแรงงาน
                     </div>
                 </div>
-            </div>
-
-            <div class="p-6 md:p-12 space-y-16">
-                
-                <!-- Section 1: Qualifications -->
-                <section>
-                    <div class="flex items-center gap-4 mb-8">
-                        <div class="bg-emerald-100 p-3 rounded-2xl text-emerald-700 shadow-sm">
-                            <i data-lucide="user-check" class="w-6 h-6"></i>
-                        </div>
-                        <h2 class="text-2xl font-bold text-slate-900">คุณสมบัติผู้เข้าอบรม</h2>
-                    </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                        <div class="bg-emerald-50/40 border border-emerald-100 p-6 rounded-[1.5rem] flex flex-col items-center text-center group hover:bg-emerald-50 transition-all duration-300 shadow-sm">
-                            <div class="text-emerald-600 mb-4 bg-white p-3 rounded-full shadow-sm group-hover:scale-110 transition-transform"><i data-lucide="user-check" class="w-6 h-6"></i></div>
-                            <span class="font-bold text-slate-800">อายุ 18 ปีขึ้นไป</span>
-                        </div>
-                        <div class="bg-emerald-50/40 border border-emerald-100 p-6 rounded-[1.5rem] flex flex-col items-center text-center group hover:bg-emerald-50 transition-all duration-300 shadow-sm">
-                            <div class="text-emerald-600 mb-4 bg-white p-3 rounded-full shadow-sm group-hover:scale-110 transition-transform"><i data-lucide="graduation-cap" class="w-6 h-6"></i></div>
-                            <span class="font-bold text-slate-800 text-sm">จบ ม.3 หรือเทียบเท่าขึ้นไป</span>
-                        </div>
-                        <div class="bg-emerald-50/40 border border-emerald-100 p-6 rounded-[1.5rem] flex flex-col items-center text-center group hover:bg-emerald-50 transition-all duration-300 shadow-sm">
-                            <div class="text-emerald-600 mb-4 bg-white p-3 rounded-full shadow-sm group-hover:scale-110 transition-transform"><i data-lucide="leaf" class="w-6 h-6"></i></div>
-                            <span class="font-bold text-slate-800">สนใจเกษตรอัจฉริยะ</span>
-                        </div>
-                        <div class="bg-emerald-50/40 border border-emerald-100 p-6 rounded-[1.5rem] flex flex-col items-center text-center group hover:bg-emerald-50 transition-all duration-300 shadow-sm">
-                            <div class="text-emerald-600 mb-4 bg-white p-3 rounded-full shadow-sm group-hover:scale-110 transition-transform"><i data-lucide="shield-check" class="w-6 h-6"></i></div>
-                            <span class="font-bold text-slate-800">ร่างกายพร้อมสำหรับการฝึก</span>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Section 2: Core Subjects -->
-                <section>
-                    <div class="flex items-center gap-4 mb-8">
-                        <div class="bg-blue-100 p-3 rounded-2xl text-blue-700 shadow-sm">
-                            <i data-lucide="settings" class="w-6 h-6"></i>
-                        </div>
-                        <h2 class="text-2xl font-bold text-slate-900">หัวข้อวิชาที่น่าสนใจ</h2>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="flex gap-5 p-6 rounded-2xl border border-slate-100 hover:shadow-xl hover:border-blue-100 transition-all bg-white group">
-                            <div class="bg-slate-50 text-slate-400 group-hover:bg-blue-600 group-hover:text-white transition-colors w-14 h-14 rounded-2xl flex items-center justify-center font-bold text-xl flex-shrink-0 shadow-inner">1</div>
-                            <div>
-                                <h3 class="font-bold text-lg text-slate-900 mb-2">ความปลอดภัยในการทำงาน</h3>
-                                <p class="text-sm text-slate-500 leading-relaxed">กฎระเบียบ การป้องกันอันตราย และการปฐมพยาบาลเบื้องต้น</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-5 p-6 rounded-2xl border border-slate-100 hover:shadow-xl hover:border-blue-100 transition-all bg-white group">
-                            <div class="bg-slate-50 text-slate-400 group-hover:bg-blue-600 group-hover:text-white transition-colors w-14 h-14 rounded-2xl flex items-center justify-center font-bold text-xl flex-shrink-0 shadow-inner">2</div>
-                            <div>
-                                <h3 class="font-bold text-lg text-slate-900 mb-2">ความสำคัญของเกษตรอัจฉริยะ</h3>
-                                <p class="text-sm text-slate-500 leading-relaxed">การผลิตอาหารปลอดภัย ยั่งยืน และบทบาทของผู้ผลิตยุคใหม่</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-5 p-6 rounded-2xl border border-slate-100 hover:shadow-xl hover:border-blue-100 transition-all bg-white group">
-                            <div class="bg-slate-50 text-slate-400 group-hover:bg-blue-600 group-hover:text-white transition-colors w-14 h-14 rounded-2xl flex items-center justify-center font-bold text-xl flex-shrink-0 shadow-inner">3</div>
-                            <div>
-                                <h3 class="font-bold text-lg text-slate-900 mb-2">โครงสร้างและระบบ IOT</h3>
-                                <p class="text-sm text-slate-500 leading-relaxed">ส่วนประกอบโรงเรือน การจัดการระบบน้ำ ปุ๋ย และเทคโนโลยี IOT</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-5 p-6 rounded-2xl border border-slate-100 hover:shadow-xl hover:border-blue-100 transition-all bg-white group">
-                            <div class="bg-slate-50 text-slate-400 group-hover:bg-blue-600 group-hover:text-white transition-colors w-14 h-14 rounded-2xl flex items-center justify-center font-bold text-xl flex-shrink-0 shadow-inner">4</div>
-                            <div>
-                                <h3 class="font-bold text-lg text-slate-900 mb-2">การบำรุงรักษาเบื้องต้น</h3>
-                                <p class="text-sm text-slate-500 leading-relaxed">ดูแลระบบไฟฟ้า การระบายอากาศ และระบบระบายน้ำให้พร้อมใช้งาน</p>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Section 3: Practice Stations -->
-                <section class="bg-slate-900 rounded-[2.5rem] p-8 md:p-12 text-white relative overflow-hidden shadow-2xl">
-                    <div class="absolute bottom-0 right-0 opacity-10 -mb-8 -mr-8">
-                        <i data-lucide="cpu" size="200"></i>
-                    </div>
-                    <div class="flex items-center gap-4 mb-10">
-                        <div class="bg-emerald-500 p-3 rounded-2xl text-white shadow-lg shadow-emerald-500/20">
-                            <i data-lucide="sprout" class="w-6 h-6"></i>
-                        </div>
-                        <div>
-                            <h2 class="text-2xl font-bold">5 สถานีฝึกปฏิบัติ</h2>
-                            <p class="text-emerald-400 text-sm">เจาะลึกภาคปฏิบัติรวม 12 ชั่วโมง</p>
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-2 md:grid-cols-5 gap-6 relative z-10">
-                        <div class="group flex flex-col items-center text-center">
-                            <div class="bg-white/10 group-hover:bg-emerald-500 group-hover:scale-110 transition-all duration-300 w-16 h-16 rounded-2xl flex items-center justify-center mb-4 border border-white/10 shadow-lg">
-                                <i data-lucide="layout" class="w-8 h-8"></i>
-                            </div>
-                            <p class="text-xs font-semibold uppercase tracking-widest text-emerald-500 mb-1">สถานีที่ 1</p>
-                            <p class="text-sm font-medium text-slate-200">ตรวจสอบโครงสร้าง</p>
-                        </div>
-                        <div class="group flex flex-col items-center text-center">
-                            <div class="bg-white/10 group-hover:bg-emerald-500 group-hover:scale-110 transition-all duration-300 w-16 h-16 rounded-2xl flex items-center justify-center mb-4 border border-white/10 shadow-lg">
-                                <i data-lucide="droplets" class="w-8 h-8"></i>
-                            </div>
-                            <p class="text-xs font-semibold uppercase tracking-widest text-emerald-500 mb-1">สถานีที่ 2</p>
-                            <p class="text-sm font-medium text-slate-200">ระบบน้ำและซ่อมบำรุง</p>
-                        </div>
-                        <div class="group flex flex-col items-center text-center">
-                            <div class="bg-white/10 group-hover:bg-emerald-500 group-hover:scale-110 transition-all duration-300 w-16 h-16 rounded-2xl flex items-center justify-center mb-4 border border-white/10 shadow-lg">
-                                <i data-lucide="sprout" class="w-8 h-8"></i>
-                            </div>
-                            <p class="text-xs font-semibold uppercase tracking-widest text-emerald-500 mb-1">สถานีที่ 3</p>
-                            <p class="text-sm font-medium text-slate-200">การเตรียมวัสดุและเพาะเมล็ด</p>
-                        </div>
-                        <div class="group flex flex-col items-center text-center">
-                            <div class="bg-white/10 group-hover:bg-emerald-500 group-hover:scale-110 transition-all duration-300 w-16 h-16 rounded-2xl flex items-center justify-center mb-4 border border-white/10 shadow-lg">
-                                <i data-lucide="cpu" class="w-8 h-8"></i>
-                            </div>
-                            <p class="text-xs font-semibold uppercase tracking-widest text-emerald-500 mb-1">สถานีที่ 4</p>
-                            <p class="text-sm font-medium text-slate-200">สารชีวภัณฑ์และปุ๋ย</p>
-                        </div>
-                        <div class="group flex flex-col items-center text-center">
-                            <div class="bg-white/10 group-hover:bg-emerald-500 group-hover:scale-110 transition-all duration-300 w-16 h-16 rounded-2xl flex items-center justify-center mb-4 border border-white/10 shadow-lg">
-                                <i data-lucide="calendar" class="w-8 h-8"></i>
-                            </div>
-                            <p class="text-xs font-semibold uppercase tracking-widest text-emerald-500 mb-1">สถานีที่ 5</p>
-                            <p class="text-sm font-medium text-slate-200">ปฏิทินการจัดการพืช</p>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Section 4: Contact Info -->
-                <section class="bg-white border-2 border-emerald-50 rounded-[2rem] p-8 md:p-10 shadow-inner">
-                    <div class="flex items-center gap-4 mb-8">
-                        <div class="bg-emerald-100 p-3 rounded-2xl text-emerald-700">
-                            <i data-lucide="phone-call" class="w-6 h-6"></i>
-                        </div>
-                        <h2 class="text-2xl font-bold text-slate-900">ข้อมูลติดต่อและผู้ประสานงาน</h2>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <!-- Contact 1 -->
-                        <div class="flex items-start gap-5 p-5 rounded-2xl bg-slate-50 border border-slate-100 hover:border-emerald-200 transition-colors group">
-                            <div class="bg-white p-3 rounded-xl text-emerald-600 shadow-sm group-hover:bg-emerald-600 group-hover:text-white transition-all"><i data-lucide="user" class="w-6 h-6"></i></div>
-                            <div class="space-y-1">
-                                <p class="text-xs text-slate-400 font-bold uppercase tracking-wider">ผู้ประสานงาน</p>
-                                <p class="text-xl font-bold text-slate-800">นายรชต รวบรวม</p>
-                                <a href="tel:0837889967" class="text-emerald-600 font-bold flex items-center gap-2 hover:underline">
-                                    <i data-lucide="phone" class="w-4 h-4"></i> 083-7889967
-                                </a>
-                            </div>
-                        </div>
-                        <!-- Contact 2 -->
-                        <div class="flex items-start gap-5 p-5 rounded-2xl bg-slate-50 border border-slate-100 hover:border-blue-200 transition-colors group">
-                            <div class="bg-white p-3 rounded-xl text-blue-600 shadow-sm group-hover:bg-blue-600 group-hover:text-white transition-all"><i data-lucide="briefcase" class="w-6 h-6"></i></div>
-                            <div class="space-y-1">
-                                <p class="text-xs text-slate-400 font-bold uppercase tracking-wider">หัวหน้าฝ่ายพัฒนาฝีมือแรงงาน</p>
-                                <p class="text-xl font-bold text-slate-800">นายอัศวิน ภู่ทอง</p>
-                                <a href="tel:0861315434" class="text-blue-600 font-bold flex items-center gap-2 hover:underline">
-                                    <i data-lucide="phone" class="w-4 h-4"></i> 086-1315434
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Footer Info -->
-                <div class="pt-10 border-t border-slate-100 flex flex-col md:flex-row justify-between items-center gap-8">
-                    <div class="flex items-center gap-5">
-                        <div class="bg-emerald-600 text-white p-4 rounded-2xl shadow-lg shadow-emerald-600/20">
-                            <i data-lucide="graduation-cap" class="w-8 h-8"></i>
-                        </div>
-                        <div>
-                            <p class="text-xs text-slate-400 font-bold uppercase tracking-[0.2em]">รับวุฒิบัตรจาก</p>
-                            <p class="text-xl font-bold text-slate-800">กรมพัฒนาฝีมือแรงงาน</p>
-                        </div>
-                    </div>
-                    <div class="text-center md:text-right space-y-1">
-                        <p class="text-slate-600 font-medium bg-slate-100 px-4 py-1 rounded-full inline-block">เกณฑ์ผ่าน: เวลาเรียน > 80% และประเมิน > 60%</p>
-                        <p class="text-xs text-slate-400 mt-2">จัดทำโดย กองพัฒนาผู้ฝึกและเทคโนโลยีการฝึก</p>
-                    </div>
-                </div>
-
+                <h1 class="text-3xl md:text-4xl font-bold mb-2">การปลูกพืชในโรงเรือนเกษตรอัจฉริยะ</h1>
+                <p class="text-emerald-50 text-lg opacity-90 italic">Smart Greenhouse Plant Cultivation Program</p>
             </div>
         </div>
+
+        <div class="p-6 md:p-10 space-y-10">
+            
+            <!-- Quick Stats Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-emerald-50 p-4 rounded-2xl flex items-center space-x-4 border border-emerald-100">
+                    <div class="bg-emerald-500 p-3 rounded-xl text-white shadow-lg shadow-emerald-200">
+                        <i data-lucide="clock"></i>
+                    </div>
+                    <div>
+                        <p class="text-[10px] text-emerald-600 font-bold uppercase tracking-wider">ระยะเวลาการฝึก</p>
+                        <p class="text-xl font-bold text-emerald-900">18 ชั่วโมง</p>
+                        <p class="text-[11px] text-slate-500 font-medium">ทฤษฎี 6 | ปฏิบัติ 12</p>
+                    </div>
+                </div>
+
+                <div class="bg-blue-50 p-4 rounded-2xl flex items-center space-x-4 border border-blue-100">
+                    <div class="bg-blue-500 p-3 rounded-xl text-white shadow-lg shadow-blue-200">
+                        <i data-lucide="users"></i>
+                    </div>
+                    <div>
+                        <p class="text-[10px] text-blue-600 font-bold uppercase tracking-wider">คุณสมบัติ</p>
+                        <p class="text-xl font-bold text-blue-900">อายุ 18-59 ปีขึ้นไป</p>
+                        <p class="text-[11px] text-slate-500 font-medium">วุฒิ ม.3 หรือผู้ที่สนใจ</p>
+                    </div>
+                </div>
+
+                <div class="bg-purple-50 p-4 rounded-2xl flex items-center space-x-4 border border-purple-100">
+                    <div class="bg-purple-500 p-3 rounded-xl text-white shadow-lg shadow-purple-200">
+                        <i data-lucide="award"></i>
+                    </div>
+                    <div>
+                        <p class="text-[10px] text-purple-600 font-bold uppercase tracking-wider">วุฒิบัตร</p>
+                        <p class="text-xl font-bold text-purple-900">วพร.</p>
+                        <p class="text-[11px] text-slate-500 font-medium">ผ่านเกณฑ์กรมพัฒนาฝีมือแรงงาน</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Objectives Section -->
+            <section>
+                <div class="flex items-center space-x-2 mb-6 border-l-4 border-emerald-500 pl-4">
+                    <i data-lucide="book-open" class="text-emerald-600"></i>
+                    <h2 class="text-2xl font-bold text-slate-800 tracking-tight">วัตถุประสงค์หลักของหลักสูตร</h2>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="flex items-start space-x-3 bg-white border border-slate-100 p-4 rounded-xl shadow-sm">
+                        <div class="bg-emerald-100 p-1.5 rounded-full mt-0.5 shrink-0">
+                            <i data-lucide="check-circle" class="text-emerald-600 w-4 h-4"></i>
+                        </div>
+                        <span class="text-slate-700 font-medium text-sm leading-snug">อธิบายหลักการปลูกพืชในโรงเรือนอัจฉริยะได้</span>
+                    </div>
+                    <div class="flex items-start space-x-3 bg-white border border-slate-100 p-4 rounded-xl shadow-sm">
+                        <div class="bg-emerald-100 p-1.5 rounded-full mt-0.5 shrink-0">
+                            <i data-lucide="check-circle" class="text-emerald-600 w-4 h-4"></i>
+                        </div>
+                        <span class="text-slate-700 font-medium text-sm leading-snug">ปฏิบัติการเพาะปลูกด้วยระบบอัจฉริยะอย่างมีประสิทธิภาพ</span>
+                    </div>
+                    <div class="flex items-start space-x-3 bg-white border border-slate-100 p-4 rounded-xl shadow-sm">
+                        <div class="bg-emerald-100 p-1.5 rounded-full mt-0.5 shrink-0">
+                            <i data-lucide="check-circle" class="text-emerald-600 w-4 h-4"></i>
+                        </div>
+                        <span class="text-slate-700 font-medium text-sm leading-snug">ซ่อมบำรุงและดูแลรักษาโครงสร้างระบบได้</span>
+                    </div>
+                    <div class="flex items-start space-x-3 bg-white border border-slate-100 p-4 rounded-xl shadow-sm">
+                        <div class="bg-emerald-100 p-1.5 rounded-full mt-0.5 shrink-0">
+                            <i data-lucide="check-circle" class="text-emerald-600 w-4 h-4"></i>
+                        </div>
+                        <span class="text-slate-700 font-medium text-sm leading-snug">นำทักษะไปใช้ประกอบอาชีพเพื่อสร้างรายได้</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Detailed Subjects Section -->
+            <section>
+                <div class="flex items-center space-x-2 mb-6 border-l-4 border-indigo-500 pl-4">
+                    <i data-lucide="info" class="text-indigo-600"></i>
+                    <h2 class="text-2xl font-bold text-slate-800 tracking-tight">รายละเอียดรายวิชา</h2>
+                </div>
+                
+                <div id="accordion-container" class="space-y-3">
+                    <!-- Subject 1 -->
+                    <div class="accordion-item group border border-slate-200 rounded-2xl overflow-hidden hover:border-indigo-300 transition-colors bg-white">
+                        <button class="accordion-button w-full flex items-center justify-between p-4 text-left focus:outline-none">
+                            <div class="flex items-center space-x-4">
+                                <div class="p-2.5 bg-slate-50 rounded-xl group-hover:bg-indigo-50 transition-colors text-red-500">
+                                    <i data-lucide="shield-check"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-slate-800 text-base">ความปลอดภัยในการทำงาน</h3>
+                                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">1 ชม.</span>
+                                </div>
+                            </div>
+                            <i data-lucide="chevron-down" class="chevron text-slate-400 transition-transform"></i>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="px-4 pb-5">
+                                <div class="pl-14 space-y-4">
+                                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                        <p class="text-[11px] font-black text-indigo-600 uppercase mb-1">วัตถุประสงค์รายวิชา</p>
+                                        <p class="text-sm text-slate-700 leading-relaxed font-medium">เพื่อให้ผู้รับการฝึกมีความรู้เกี่ยวกับความปลอดภัยในการทำงานที่เกี่ยวกับสิ่งก่อสร้าง และการใช้งานโรงเรือนอัจฉริยะได้อย่างปลอดภัย</p>
+                                    </div>
+                                    <div class="bg-indigo-50/30 p-4 rounded-xl border border-indigo-100/50">
+                                        <p class="text-[11px] font-black text-slate-500 uppercase mb-1">คำอธิบายรายวิชา</p>
+                                        <p class="text-sm text-slate-600 leading-relaxed">ศึกษาเกี่ยวกับกฎ ระเบียบ การปฏิบัติงานด้านความปลอดภัย วิธีป้องกันอันตรายที่เกิดจากการทำงานในเขตพื้นที่ก่อสร้าง การใช้อุปกรณ์ IoT และการปฐมพยาบาลเบื้องต้น</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Subject 2 -->
+                    <div class="accordion-item group border border-slate-200 rounded-2xl overflow-hidden hover:border-indigo-300 transition-colors bg-white">
+                        <button class="accordion-button w-full flex items-center justify-between p-4 text-left focus:outline-none">
+                            <div class="flex items-center space-x-4">
+                                <div class="p-2.5 bg-slate-50 rounded-xl group-hover:bg-indigo-50 transition-colors text-yellow-500">
+                                    <i data-lucide="zap"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-slate-800 text-base">ความสำคัญของเกษตรอัจฉริยะ</h3>
+                                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">1 ชม.</span>
+                                </div>
+                            </div>
+                            <i data-lucide="chevron-down" class="chevron text-slate-400 transition-transform"></i>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="px-4 pb-5">
+                                <div class="pl-14 space-y-4">
+                                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                        <p class="text-[11px] font-black text-indigo-600 uppercase mb-1">วัตถุประสงค์รายวิชา</p>
+                                        <p class="text-sm text-slate-700 leading-relaxed font-medium">เพื่อให้ผู้รับการฝึกมีความรู้เกี่ยวกับความสำคัญของการผลิตผลผลิตทางการเกษตรด้วยระบบโรงเรือนเกษตรอัจฉริยะ เพื่อให้สามารถสร้างอาหารปลอดภัยได้อย่างยั่งยืน</p>
+                                    </div>
+                                    <div class="bg-indigo-50/30 p-4 rounded-xl border border-indigo-100/50">
+                                        <p class="text-[11px] font-black text-slate-500 uppercase mb-1">คำอธิบายรายวิชา</p>
+                                        <p class="text-sm text-slate-600 leading-relaxed">ศึกษาเกี่ยวกับความตระหนักรู้ถึงความสำคัญของการผลิตอาหารปลอดภัยภายใต้ระบบโรงเรือนเกษตรอัจฉริยะ และบทบาทหน้าที่ในฐานะผู้ผลิตอาหารปลอดภัย</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Subject 3 -->
+                    <div class="accordion-item group border border-slate-200 rounded-2xl overflow-hidden hover:border-indigo-300 transition-colors bg-white">
+                        <button class="accordion-button w-full flex items-center justify-between p-4 text-left focus:outline-none">
+                            <div class="flex items-center space-x-4">
+                                <div class="p-2.5 bg-slate-50 rounded-xl group-hover:bg-indigo-50 transition-colors text-blue-500">
+                                    <i data-lucide="settings"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-slate-800 text-base">โครงสร้างและส่วนประกอบ</h3>
+                                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">1 ชม.</span>
+                                </div>
+                            </div>
+                            <i data-lucide="chevron-down" class="chevron text-slate-400 transition-transform"></i>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="px-4 pb-5">
+                                <div class="pl-14 space-y-4">
+                                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                        <p class="text-[11px] font-black text-indigo-600 uppercase mb-1">วัตถุประสงค์รายวิชา</p>
+                                        <p class="text-sm text-slate-700 leading-relaxed font-medium">เพื่อให้ผู้รับการฝึกมีความรู้เกี่ยวกับโครงสร้างและส่วนประกอบ ระบบการจัดการน้ำ ปุ๋ย และระบบ IoT ของโรงเรือนเกษตรอัจฉริยะ</p>
+                                    </div>
+                                    <div class="bg-indigo-50/30 p-4 rounded-xl border border-indigo-100/50">
+                                        <p class="text-[11px] font-black text-slate-500 uppercase mb-1">คำอธิบายรายวิชา</p>
+                                        <p class="text-sm text-slate-600 leading-relaxed">ศึกษาเกี่ยวกับพื้นฐานงานโครงสร้างโรงเรือน ขั้นตอนการปฏิบัติงาน และการเลือกใช้อุปกรณ์/เครื่องจักรที่เหมาะสมกับระบบอัจฉริยะ</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Subject 4 -->
+                    <div class="accordion-item group border border-slate-200 rounded-2xl overflow-hidden hover:border-indigo-300 transition-colors bg-white">
+                        <button class="accordion-button w-full flex items-center justify-between p-4 text-left focus:outline-none">
+                            <div class="flex items-center space-x-4">
+                                <div class="p-2.5 bg-slate-50 rounded-xl group-hover:bg-indigo-50 transition-colors text-indigo-500">
+                                    <i data-lucide="cpu"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-slate-800 text-base">การใช้งานและบำรุงรักษา</h3>
+                                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">1 ชม.</span>
+                                </div>
+                            </div>
+                            <i data-lucide="chevron-down" class="chevron text-slate-400 transition-transform"></i>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="px-4 pb-5">
+                                <div class="pl-14 space-y-4">
+                                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                        <p class="text-[11px] font-black text-indigo-600 uppercase mb-1">วัตถุประสงค์รายวิชา</p>
+                                        <p class="text-sm text-slate-700 leading-relaxed font-medium">เพื่อให้ผู้รับการฝึกมีความรู้เกี่ยวกับการใช้งานและการบำรุงรักษาโรงเรือนเกษตรอัจฉริยะเบื้องต้น</p>
+                                    </div>
+                                    <div class="bg-indigo-50/30 p-4 rounded-xl border border-indigo-100/50">
+                                        <p class="text-[11px] font-black text-slate-500 uppercase mb-1">คำอธิบายรายวิชา</p>
+                                        <p class="text-sm text-slate-600 leading-relaxed">ศึกษาเกี่ยวกับวิธีการใช้งานและระบบการทำงานของโรงเรือนอัจฉริยะ วิธีการบำรุงรักษาระบบระบายน้ำ ระบบไฟฟ้า และระบบระบายอากาศ</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Subject 5 -->
+                    <div class="accordion-item group border border-slate-200 rounded-2xl overflow-hidden hover:border-indigo-300 transition-colors bg-white">
+                        <button class="accordion-button w-full flex items-center justify-between p-4 text-left focus:outline-none">
+                            <div class="flex items-center space-x-4">
+                                <div class="p-2.5 bg-slate-50 rounded-xl group-hover:bg-indigo-50 transition-colors text-green-500">
+                                    <i data-lucide="sprout"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-slate-800 text-base">ปฏิบัติการเพาะปลูก</h3>
+                                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">10 ชม.</span>
+                                </div>
+                            </div>
+                            <i data-lucide="chevron-down" class="chevron text-slate-400 transition-transform"></i>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="px-4 pb-5">
+                                <div class="pl-14 space-y-4">
+                                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                        <p class="text-[11px] font-black text-indigo-600 uppercase mb-1">วัตถุประสงค์รายวิชา</p>
+                                        <p class="text-sm text-slate-700 leading-relaxed font-medium">เพื่อให้ผู้รับการฝึกมีความรู้และทักษะเกี่ยวกับการใช้งาน การควบคุมอุปกรณ์ต่าง ๆ และการเพาะปลูกพืชภายใต้ระบบโรงเรือนเกษตรอัจฉริยะได้อย่างถูกวิธี</p>
+                                    </div>
+                                    <div class="bg-indigo-50/30 p-4 rounded-xl border border-indigo-100/50">
+                                        <p class="text-[11px] font-black text-slate-500 uppercase mb-1">คำอธิบายรายวิชา</p>
+                                        <p class="text-sm text-slate-600 leading-relaxed">ฝึกปฏิบัติการควบคุมระบบโรงเรือนใน 5 สถานี: ตรวจสอบโครงสร้าง, ติดตั้งระบบน้ำ, เตรียมวัสดุ/เพาะเมล็ด, การใช้ปุ๋ย/สารชีวภัณฑ์ และการจัดการปฏิทินพืช</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p class="mt-4 text-center text-slate-400 text-xs italic">* คลิกที่แต่ละวิชาเพื่อดูวัตถุประสงค์และรายละเอียดเพิ่มเติม</p>
+            </section>
+
+            <!-- Practical Stations Section -->
+            <section class="bg-slate-900 rounded-3xl p-8 text-white shadow-2xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-emerald-500/20 rounded-full -mr-32 -mt-32 blur-3xl"></div>
+                <div class="relative z-10">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+                        <h2 class="text-2xl font-bold flex items-center">
+                            <div class="bg-emerald-500 p-2 rounded-lg mr-3 shadow-lg shadow-emerald-500/30 text-white">
+                                <i data-lucide="sprout"></i>
+                            </div>
+                            5 สถานีปฏิบัติการเข้มข้น
+                        </h2>
+                        <div class="inline-flex bg-white/10 px-4 py-2 rounded-full border border-white/10">
+                            <i data-lucide="clock" class="text-emerald-400 mr-2 w-4 h-4 self-center"></i>
+                            <span class="text-sm font-bold self-center">ฝึกปฏิบัติรวม 12 ชั่วโมง</span>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 text-center">
+                        <div class="group bg-white/5 backdrop-blur-sm border border-white/10 p-5 rounded-2xl hover:bg-white/10 hover:border-emerald-400/50 transition-all duration-300">
+                            <span class="text-3xl font-black text-emerald-500 mb-2 opacity-50 group-hover:opacity-100 block">1</span>
+                            <p class="text-xs font-semibold leading-tight">ตรวจสอบโครงสร้าง</p>
+                        </div>
+                        <div class="group bg-white/5 backdrop-blur-sm border border-white/10 p-5 rounded-2xl hover:bg-white/10 hover:border-emerald-400/50 transition-all duration-300">
+                            <span class="text-3xl font-black text-emerald-500 mb-2 opacity-50 group-hover:opacity-100 block">2</span>
+                            <p class="text-xs font-semibold leading-tight">ติดตั้ง/ซ่อมระบบน้ำ</p>
+                        </div>
+                        <div class="group bg-white/5 backdrop-blur-sm border border-white/10 p-5 rounded-2xl hover:bg-white/10 hover:border-emerald-400/50 transition-all duration-300">
+                            <span class="text-3xl font-black text-emerald-500 mb-2 opacity-50 group-hover:opacity-100 block">3</span>
+                            <p class="text-xs font-semibold leading-tight">เตรียมวัสดุ/เพาะเมล็ด</p>
+                        </div>
+                        <div class="group bg-white/5 backdrop-blur-sm border border-white/10 p-5 rounded-2xl hover:bg-white/10 hover:border-emerald-400/50 transition-all duration-300">
+                            <span class="text-3xl font-black text-emerald-500 mb-2 opacity-50 group-hover:opacity-100 block">4</span>
+                            <p class="text-xs font-semibold leading-tight">ใช้สารชีวภัณฑ์และปุ๋ย</p>
+                        </div>
+                        <div class="group bg-white/5 backdrop-blur-sm border border-white/10 p-5 rounded-2xl hover:bg-white/10 hover:border-emerald-400/50 transition-all duration-300">
+                            <span class="text-3xl font-black text-emerald-500 mb-2 opacity-50 group-hover:opacity-100 block">5</span>
+                            <p class="text-xs font-semibold leading-tight">ปฏิทินการจัดการพืช</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contact Personnel Section -->
+            <section>
+                <div class="flex items-center space-x-2 mb-6 border-l-4 border-orange-500 pl-4">
+                    <i data-lucide="phone" class="text-orange-600"></i>
+                    <h2 class="text-2xl font-bold text-slate-800 tracking-tight">ข้อมูลติดต่อผู้ประสานงาน</h2>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-orange-50/50 border border-orange-100 p-5 rounded-2xl flex items-start space-x-4">
+                        <div class="bg-orange-500 p-3 rounded-xl text-white shadow-lg shadow-orange-200">
+                            <i data-lucide="user-round"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-bold text-slate-800">นายรชต รวบรวม</p>
+                            <p class="text-xs text-orange-600 font-medium mb-2">ครูฝึกฝีมือแรงงานเทคนิค</p>
+                            <a href="tel:0837889967" class="inline-flex items-center text-sm font-bold text-slate-700 bg-white px-3 py-1.5 rounded-lg border border-orange-200 hover:bg-orange-500 hover:text-white transition-colors">
+                                <i data-lucide="phone-call" class="w-3.5 h-3.5 mr-2"></i> 083-7889967
+                            </a>
+                        </div>
+                    </div>
+                    <div class="bg-blue-50/50 border border-blue-100 p-5 rounded-2xl flex items-start space-x-4">
+                        <div class="bg-blue-500 p-3 rounded-xl text-white shadow-lg shadow-blue-200">
+                            <i data-lucide="user-cog"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-bold text-slate-800">นายอัศวิน ภู่ทอง</p>
+                            <p class="text-xs text-blue-600 font-medium mb-2">หัวหน้าฝ่ายพัฒนาฝีมือแรงงาน</p>
+                            <a href="tel:0861315434" class="inline-flex items-center text-sm font-bold text-slate-700 bg-white px-3 py-1.5 rounded-lg border border-blue-200 hover:bg-blue-500 hover:text-white transition-colors">
+                                <i data-lucide="phone-call" class="w-3.5 h-3.5 mr-2"></i> 086-1315434
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Evaluation & Footer -->
+            <div class="flex flex-col md:flex-row justify-between items-center bg-slate-50 rounded-2xl p-8 border-2 border-dashed border-slate-200 gap-8">
+                <div class="max-w-md">
+                    <h3 class="font-bold text-slate-800 flex items-center mb-3 text-lg">
+                        <i data-lucide="shield-check" class="mr-2 text-emerald-600"></i>
+                        เงื่อนไขการสำเร็จหลักสูตร
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center text-sm text-slate-600 bg-white p-2.5 rounded-lg border border-slate-100 shadow-sm">
+                            <div class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-2"></div>
+                            ต้องมีระยะเวลาการฝึกอบรมไม่น้อยกว่า <strong class="mx-1 text-slate-800">ร้อยละ 80</strong>
+                        </div>
+                        <div class="flex items-center text-sm text-slate-600 bg-white p-2.5 rounded-lg border border-slate-100 shadow-sm">
+                            <div class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-2"></div>
+                            ผ่านการประเมินไม่น้อยกว่า <strong class="mx-1 text-slate-800">ร้อยละ 60</strong>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center md:text-right bg-white p-6 rounded-2xl shadow-sm border border-slate-100 min-w-[200px]">
+                    <p class="text-[10px] text-slate-400 uppercase tracking-widest font-bold mb-2">จัดทำและรับรองหลักสูตรโดย</p>
+                    <p class="text-sm font-black text-slate-800 leading-tight mb-1">กองพัฒนาผู้ฝึกและเทคโนโลยีการฝึก</p>
+                    <p class="text-xs font-bold text-emerald-600 mb-3">กรมพัฒนาฝีมือแรงงาน</p>
+                    <div class="h-px bg-slate-100 w-full mb-3"></div>
+                    <p class="text-[10px] text-slate-400 mb-1">ร่วมพัฒนาเนื้อหาโดย</p>
+                    <p class="text-[11px] font-bold text-slate-700">บริษัท เกษตรอินโน จำกัด</p>
+                </div>
+            </div>
+
+        </div>
     </div>
+    <p class="text-center mt-6 text-slate-400 text-xs font-medium">ข้อมูลปรับปรุงล่าสุด ณ วันที่ 23 มกราคม 2567</p>
 
     <script>
-        // Initialize Lucide Icons
+        // Initialize Lucide icons
         lucide.createIcons();
+
+        // Accordion logic
+        document.querySelectorAll('.accordion-button').forEach(button => {
+            button.addEventListener('click', () => {
+                const item = button.parentElement;
+                const content = button.nextElementSibling;
+                const chevron = button.querySelector('.chevron');
+                
+                // Toggle active state
+                const isActive = content.classList.contains('active');
+                
+                // Close all other items
+                document.querySelectorAll('.accordion-content').forEach(otherContent => {
+                    otherContent.classList.remove('active');
+                    otherContent.parentElement.classList.remove('border-indigo-300');
+                    otherContent.previousElementSibling.querySelector('.chevron').classList.remove('rotate-180');
+                });
+
+                if (!isActive) {
+                    content.classList.add('active');
+                    item.classList.add('border-indigo-300');
+                    chevron.classList.add('rotate-180');
+                }
+            });
+        });
     </script>
 </body>
 </html>
