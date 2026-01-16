@@ -10,15 +10,13 @@
     <style>
         body {
             font-family: 'Sarabun', sans-serif;
-            /* --- โค้ดสำหรับใส่รูปพื้นหลัง --- */
-            background-image: url('blackgound.jpg'); /* เปลี่ยนชื่อไฟล์รูปพื้นหลังตรงนี้ */
-            background-size: cover;           /* ให้รูปขยายเต็มหน้าจอ */
-            background-position: center;      /* จัดรูปให้อยู่ตรงกลาง */
-            background-attachment: fixed;    /* ให้พื้นหลังอยู่กับที่เวลาเลื่อนหน้าจอ */
+            background-image: url('blackgound.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
             background-repeat: no-repeat;
         }
         
-        /* เพิ่ม Overlay สีจางๆ ทับพื้นหลังเพื่อให้ตัวอักษรอ่านง่ายขึ้น */
         body::before {
             content: "";
             position: fixed;
@@ -26,7 +24,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(241, 245, 249, 0.2); /* ปรับความเข้ม/จาง ตรงเลข 0.9 */
+            background: rgba(241, 245, 249, 0.25);
             z-index: -1;
         }
 
@@ -41,8 +39,51 @@
         }
         .rotate-180 {
             transform: rotate(180deg);
-        }        }
+        }
+
+        /* Loading Animation */
+        .dot-flashing {
+            position: relative;
+            width: 10px;
+            height: 10px;
+            border-radius: 5px;
+            background-color: #10b981;
+            color: #10b981;
+            animation: dot-flashing 1s infinite linear alternate;
+            animation-delay: .5s;
+        }
+        .dot-flashing::before, .dot-flashing::after {
+            content: '';
+            display: inline-block;
+            position: absolute;
+            top: 0;
+        }
+        .dot-flashing::before {
+            left: -15px;
+            width: 10px;
+            height: 10px;
+            border-radius: 5px;
+            background-color: #10b981;
+            color: #10b981;
+            animation: dot-flashing 1s infinite alternate;
+            animation-delay: 0s;
+        }
+        .dot-flashing::after {
+            left: 15px;
+            width: 10px;
+            height: 10px;
+            border-radius: 5px;
+            background-color: #10b981;
+            color: #10b981;
+            animation: dot-flashing 1s infinite alternate;
+            animation-delay: 1s;
+        }
+        @keyframes dot-flashing {
+            0% { background-color: #10b981; }
+            50%, 100% { background-color: #ebe6ff; }
+        }
     </style>
+
 </head>
 <body class="text-slate-800 p-2 sm:p-4 md:p-8">
 
@@ -109,36 +150,39 @@
                 </div>
             </div>
 
-            <!-- Objectives Section -->
-            <section>
-                <div class="flex items-center space-x-2 mb-6 border-l-4 border-emerald-500 pl-4">
-                    <i data-lucide="book-open" class="text-emerald-600"></i>
-                    <h2 class="text-2xl font-bold text-slate-800 tracking-tight">วัตถุประสงค์หลักของหลักสูตร</h2>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="flex items-start space-x-3 bg-white border border-slate-100 p-4 rounded-xl shadow-sm">
-                        <div class="bg-emerald-100 p-1.5 rounded-full mt-0.5 shrink-0">
-                            <i data-lucide="check-circle" class="text-emerald-600 w-4 h-4"></i>
-                        </div>
-                        <span class="text-slate-700 font-medium text-sm leading-snug">อธิบายหลักการปลูกพืชในโรงเรือนอัจฉริยะได้</span>
+            <!-- Objectives Section (Focused Design) -->
+            <section class="bg-gradient-to-br from-emerald-600 to-green-700 rounded-[2.5rem] p-8 md:p-10 shadow-xl shadow-emerald-200 ring-8 ring-emerald-50 text-white relative overflow-hidden">
+                <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-white/5 rounded-full blur-2xl"></div>
+                <div class="relative z-10">
+                    <div class="flex items-center space-x-3 mb-8 border-l-4 border-white pl-4">
+                        <i data-lucide="book-open" class="text-white w-8 h-8"></i>
+                        <h2 class="text-2xl md:text-3xl font-black tracking-tight">วัตถุประสงค์หลักของหลักสูตร</h2>
                     </div>
-                    <div class="flex items-start space-x-3 bg-white border border-slate-100 p-4 rounded-xl shadow-sm">
-                        <div class="bg-emerald-100 p-1.5 rounded-full mt-0.5 shrink-0">
-                            <i data-lucide="check-circle" class="text-emerald-600 w-4 h-4"></i>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div class="flex items-start space-x-4 bg-white/10 backdrop-blur-md border border-white/20 p-5 rounded-2xl shadow-lg hover:bg-white/20 transition-all group">
+                            <div class="bg-white p-2 rounded-full mt-0.5 shrink-0 shadow-md group-hover:scale-110 transition-transform">
+                                <i data-lucide="check-circle" class="text-emerald-600 w-5 h-5"></i>
+                            </div>
+                            <span class="font-bold text-base md:text-lg leading-snug">อธิบายหลักการปลูกพืชในโรงเรือนอัจฉริยะได้</span>
                         </div>
-                        <span class="text-slate-700 font-medium text-sm leading-snug">ปฏิบัติการเพาะปลูกด้วยระบบอัจฉริยะอย่างมีประสิทธิภาพ</span>
-                    </div>
-                    <div class="flex items-start space-x-3 bg-white border border-slate-100 p-4 rounded-xl shadow-sm">
-                        <div class="bg-emerald-100 p-1.5 rounded-full mt-0.5 shrink-0">
-                            <i data-lucide="check-circle" class="text-emerald-600 w-4 h-4"></i>
+                        <div class="flex items-start space-x-4 bg-white/10 backdrop-blur-md border border-white/20 p-5 rounded-2xl shadow-lg hover:bg-white/20 transition-all group">
+                            <div class="bg-white p-2 rounded-full mt-0.5 shrink-0 shadow-md group-hover:scale-110 transition-transform">
+                                <i data-lucide="check-circle" class="text-emerald-600 w-5 h-5"></i>
+                            </div>
+                            <span class="font-bold text-base md:text-lg leading-snug">ปฏิบัติการเพาะปลูกด้วยระบบอัจฉริยะได้</span>
                         </div>
-                        <span class="text-slate-700 font-medium text-sm leading-snug">ซ่อมบำรุงและดูแลรักษาโครงสร้างระบบได้</span>
-                    </div>
-                    <div class="flex items-start space-x-3 bg-white border border-slate-100 p-4 rounded-xl shadow-sm">
-                        <div class="bg-emerald-100 p-1.5 rounded-full mt-0.5 shrink-0">
-                            <i data-lucide="check-circle" class="text-emerald-600 w-4 h-4"></i>
+                        <div class="flex items-start space-x-4 bg-white/10 backdrop-blur-md border border-white/20 p-5 rounded-2xl shadow-lg hover:bg-white/20 transition-all group">
+                            <div class="bg-white p-2 rounded-full mt-0.5 shrink-0 shadow-md group-hover:scale-110 transition-transform">
+                                <i data-lucide="check-circle" class="text-emerald-600 w-5 h-5"></i>
+                            </div>
+                            <span class="font-bold text-base md:text-lg leading-snug">ซ่อมบำรุงและดูแลรักษาโครงสร้างระบบได้</span>
                         </div>
-                        <span class="text-slate-700 font-medium text-sm leading-snug">นำทักษะไปใช้ประกอบอาชีพเพื่อสร้างรายได้</span>
+                        <div class="flex items-start space-x-4 bg-white/10 backdrop-blur-md border border-white/20 p-5 rounded-2xl shadow-lg hover:bg-white/20 transition-all group">
+                            <div class="bg-white p-2 rounded-full mt-0.5 shrink-0 shadow-md group-hover:scale-110 transition-transform">
+                                <i data-lucide="check-circle" class="text-emerald-600 w-5 h-5"></i>
+                            </div>
+                            <span class="font-bold text-base md:text-lg leading-snug">นำทักษะไปใช้ประกอบอาชีพเพื่อสร้างรายได้</span>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -332,33 +376,6 @@
                 </div>
                 <p class="mt-4 text-center text-slate-400 text-xs italic">* คลิกที่แต่ละวิชาเพื่อดูวัตถุประสงค์และรายละเอียดเพิ่มเติม</p>
             </section>
-			 <!-- Evaluation & Footer -->
-            <div class="flex flex-col md:flex-row justify-between items-center bg-slate-50 rounded-2xl p-8 border-2 border-dashed border-slate-200 gap-8">
-                <div class="max-w-md">
-                    <h3 class="font-bold text-slate-800 flex items-center mb-3 text-lg">
-                        <i data-lucide="shield-check" class="mr-2 text-emerald-600"></i>
-                        เงื่อนไขการสำเร็จหลักสูตร
-                    </h3>
-                    <div class="space-y-3">
-                        <div class="flex items-center text-sm text-slate-600 bg-white p-2.5 rounded-lg border border-slate-100 shadow-sm">
-                            <div class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-2"></div>
-                            ต้องมีระยะเวลาการฝึกอบรมไม่น้อยกว่า <strong class="mx-1 text-slate-800">ร้อยละ 80</strong>
-                        </div>
-                        <div class="flex items-center text-sm text-slate-600 bg-white p-2.5 rounded-lg border border-slate-100 shadow-sm">
-                            <div class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-2"></div>
-                            ผ่านการประเมินไม่น้อยกว่า <strong class="mx-1 text-slate-800">ร้อยละ 60</strong>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="text-center md:text-right bg-white p-6 rounded-2xl shadow-sm border border-slate-100 min-w-[200px]">
-                    <p class="text-[10px] text-slate-400 uppercase tracking-widest font-bold mb-2">จัดทำและรับรองหลักสูตรโดย</p>
-                    <p class="text-sm font-black text-slate-800 leading-tight mb-1">กองพัฒนาผู้ฝึกและเทคโนโลยีการฝึก</p>
-                    <p class="text-xs font-bold text-emerald-600 mb-3">กรมพัฒนาฝีมือแรงงาน</p>
-                    <div class="h-px bg-slate-100 w-full mb-3"></div>
-                    <p class="text-[10px] text-slate-400 mb-1">ร่วมพัฒนาเนื้อหาโดย</p>
-                    <p class="text-[11px] font-bold text-slate-700">บริษัท เกษตรอินโน จำกัด</p>
-                </div>
             </div>
 
             <!-- Practical Stations Section -->
@@ -409,135 +426,151 @@
                     <i data-lucide="images" class="text-blue-600"></i>
                     <h2 class="text-2xl font-bold text-slate-800 tracking-tight">ศูนย์เรียนรู้ ๙ ตามพ่อ ตำบลบางขันหมาก อำเภอเมืองลพบุรี จังหวัดลพบุรี</h2>
                 </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <!-- รูปที่ 1 -->
-                    <div class="group relative aspect-video bg-slate-100 rounded-2xl overflow-hidden border border-slate-200">
-                        <img src="A7.jpg" alt="ภาพบรรยากาศ 1" class="w-full h-full object-cover transition-transform group-hover:scale-110" onerror="this.src='https://via.placeholder.com/400x250?text=Training+Image+1'">
-                        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                            <p class="text-white text-xs font-bold uppercase tracking-widest">ศูนย์เรียนรู้ ๙ ตามพ่อ</p>
-                        </div>
+                <div class="grid grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div class="group relative aspect-video bg-slate-100 rounded-2xl overflow-hidden border border-slate-200 shadow-sm">
+                        <img src="A7.jpg" alt="Gallery" class="w-full h-full object-cover transition-transform group-hover:scale-110" onerror="this.src='https://via.placeholder.com/400x250?text=Image'">
                     </div>
-                    <!-- รูปที่ 2 -->
-                    <div class="group relative aspect-video bg-slate-100 rounded-2xl overflow-hidden border border-slate-200">
-                        <img src="A8.jpg" alt="ภาพบรรยากาศ 2" class="w-full h-full object-cover transition-transform group-hover:scale-110" onerror="this.src='https://via.placeholder.com/400x250?text=Training+Image+2'">
-                        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                            <p class="text-white text-xs font-bold uppercase tracking-widest">ศูนย์เรียนรู้ ๙ ตามพ่อ</p>
-                        </div>
+                    <div class="group relative aspect-video bg-slate-100 rounded-2xl overflow-hidden border border-slate-200 shadow-sm">
+                        <img src="A8.jpg" alt="Gallery" class="w-full h-full object-cover transition-transform group-hover:scale-110" onerror="this.src='https://via.placeholder.com/400x250?text=Image'">
                     </div>
-                    <!-- รูปที่ 3 -->
-                    <div class="group relative aspect-video bg-slate-100 rounded-2xl overflow-hidden border border-slate-200">
-                        <img src="A6.jpg" alt="ภาพบรรยากาศ 3" class="w-full h-full object-cover transition-transform group-hover:scale-110" onerror="this.src='https://via.placeholder.com/400x250?text=Training+Image+3'">
-                        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                            <p class="text-white text-xs font-bold uppercase tracking-widest">ศูนย์เรียนรู้ ๙ ตามพ่อ</p>
-                        </div>
+                    <div class="group relative aspect-video bg-slate-100 rounded-2xl overflow-hidden border border-slate-200 shadow-sm">
+                        <img src="A6.jpg" alt="Gallery" class="w-full h-full object-cover transition-transform group-hover:scale-110" onerror="this.src='https://via.placeholder.com/400x250?text=Image'">
                     </div>
-					<!-- รูปที่ 4 -->
-                    <div class="group relative aspect-video bg-slate-100 rounded-2xl overflow-hidden border border-slate-200">
-                        <img src="A2.jpg" alt="ภาพบรรยากาศ 3" class="w-full h-full object-cover transition-transform group-hover:scale-110" onerror="this.src='https://via.placeholder.com/400x250?text=Training+Image+3'">
-                        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                            <p class="text-white text-xs font-bold uppercase tracking-widest">ศูนย์เรียนรู้ ๙ ตามพ่อ</p>
-                        </div>
+					<div class="group relative aspect-video bg-slate-100 rounded-2xl overflow-hidden border border-slate-200 shadow-sm">
+                        <img src="A2.jpg" alt="Gallery" class="w-full h-full object-cover transition-transform group-hover:scale-110" onerror="this.src='https://via.placeholder.com/400x250?text=Image'">
                     </div>
-					<!-- รูปที่ 5 -->
-                    <div class="group relative aspect-video bg-slate-100 rounded-2xl overflow-hidden border border-slate-200">
-                        <img src="A5.jpg" alt="ภาพบรรยากาศ 3" class="w-full h-full object-cover transition-transform group-hover:scale-110" onerror="this.src='https://via.placeholder.com/400x250?text=Training+Image+3'">
-                        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                            <p class="text-white text-xs font-bold uppercase tracking-widest">ศูนย์เรียนรู้ ๙ ตามพ่อ</p>
-                        </div>
+					<div class="group relative aspect-video bg-slate-100 rounded-2xl overflow-hidden border border-slate-200 shadow-sm">
+                        <img src="A5.jpg" alt="Gallery" class="w-full h-full object-cover transition-transform group-hover:scale-110" onerror="this.src='https://via.placeholder.com/400x250?text=Image'">
                     </div>
-					<!-- รูปที่ 6 -->
-                    <div class="group relative aspect-video bg-slate-100 rounded-2xl overflow-hidden border border-slate-200">
-                        <img src="A1.jpg" alt="ภาพบรรยากาศ 3" class="w-full h-full object-cover transition-transform group-hover:scale-110" onerror="this.src='https://via.placeholder.com/400x250?text=Training+Image+3'">
-                        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                            <p class="text-white text-xs font-bold uppercase tracking-widest">ศูนย์เรียนรู้ ๙ ตามพ่อ</p>
-                        </div>
+					<div class="group relative aspect-video bg-slate-100 rounded-2xl overflow-hidden border border-slate-200 shadow-sm">
+                        <img src="A1.jpg" alt="Gallery" class="w-full h-full object-cover transition-transform group-hover:scale-110" onerror="this.src='https://via.placeholder.com/400x250?text=Image'">
                     </div>
                 </div>
             </section>
 
+            <!-- Registration & Contact Section -->
+            <section class="bg-orange-100/80 border-2 border-orange-200 rounded-[2.5rem] p-6 md:p-10 shadow-xl relative overflow-hidden">
+                <div class="relative z-10 space-y-8">
+                    
+                    <!-- QR Registration Area -->
+                    <div class="bg-white p-6 rounded-[2rem] border-2 border-red-500 shadow-lg flex flex-col md:flex-row items-center gap-6 relative">
+                        <div class="absolute -top-3 left-10 bg-red-500 text-white text-xs font-black px-4 py-1 rounded-full shadow-md">
+                            ลงทะเบียนสมัครฝึกอบรม
+                        </div>
+                        <div class="bg-red-50 p-3 rounded-[1.5rem] border-2 border-dashed border-red-200">
+                            <!-- เปลี่ยน reg-qr.png เป็นไฟล์รูป QR Code สำหรับลงทะเบียนของคุณ -->
+                            <img src="dsd.png" alt="Registration QR" class="w-32 h-32 md:w-40 md:h-40 object-contain rounded-xl" onerror="this.src='https://via.placeholder.com/200?text=SCAN+TO+REGISTER'">
+                        </div>
+                        <div class="text-center md:text-left space-y-2">
+                            <h3 class="text-xl md:text-2xl font-black text-slate-800 tracking-tight">สนใจเข้าร่วมการฝึกอบรม?</h3>
+                            <p class="text-slate-600 font-medium">สแกน QR Code เพื่อกรอกข้อมูลสมัครเข้าฝึกอบรมหลักสูตรนี้ หรือติดต่อสอบถามเจ้าหน้าที่เพิ่มเติมด้านล่าง</p>
+                            <div class="flex items-center justify-center md:justify-start gap-2 text-red-600 font-bold">
+                                <i data-lucide="info" class="w-5 h-5"></i>
+                                <span>เปิดรับสมัครจำนวนจำกัด!</span>
+                            </div>
+                        </div>
+                    </div>
 
-            <!-- Contact Personnel Section -->
-			<section class="bg-purple-200 border-2 border-orange-200 rounded-[2.5rem] p-8 md:p-10 shadow-lg shadow-yellow-500 relative overflow-hidden">
-                <div class="relative z-10">			
-                <div class="flex items-center space-x-2 mb-6 border-l-4 border-orange-500 pl-4">
-                    <i data-lucide="phone" class="text-orange-600"></i>
-                    <h2 class="text-2xl font-bold text-slate-800 tracking-tight">ข้อมูลติดต่อผู้ประสานงาน</h2>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="bg-orange-50/50 border border-orange-100 p-5 rounded-2xl flex items-start space-x-4">
-                        <div class="bg-orange-500 p-3 rounded-xl text-white shadow-lg shadow-orange-200">
-                            <i data-lucide="user-round"></i>
-                        </div>
-                        <div>
-                            <p class="text-sm font-bold text-slate-800">นายรชต รวบรวม</p>
-                            <p class="text-xs text-orange-600 font-medium mb-2">ครูฝึกฝีมือแรงงานเทคนิค</p>
-                            <a href="tel:0837889967" class="inline-flex items-center text-sm font-bold text-slate-700 bg-white px-3 py-1.5 rounded-lg border border-orange-200 hover:bg-orange-500 hover:text-white transition-colors">
-                                <i data-lucide="phone-call" class="w-3.5 h-3.5 mr-2"></i> 083-7889967
-                            </a>
-                        </div>
+                    <div class="h-px bg-orange-200 w-full"></div>
+
+                    <div class="flex items-center space-x-2 mb-4 border-l-4 border-orange-500 pl-4">
+                        <i data-lucide="phone" class="text-orange-600"></i>
+                        <h2 class="text-2xl font-bold text-slate-800 tracking-tight">ข้อมูลติดต่อผู้ประสานงาน</h2>
                     </div>
-                    <div class="bg-blue-50/50 border border-blue-100 p-5 rounded-2xl flex items-start space-x-4">
-                        <div class="bg-blue-500 p-3 rounded-xl text-white shadow-lg shadow-blue-200">
-                            <i data-lucide="user-cog"></i>
-                        </div>
-                        <div>
-                            <p class="text-sm font-bold text-slate-800">นายอัศวิน ภู่ทอง</p>
-                            <p class="text-xs text-blue-600 font-medium mb-2">หัวหน้าฝ่ายพัฒนาฝีมือแรงงาน</p>
-                            <a href="tel:0861315434" class="inline-flex items-center text-sm font-bold text-slate-700 bg-white px-3 py-1.5 rounded-lg border border-blue-200 hover:bg-blue-500 hover:text-white transition-colors">
-                                <i data-lucide="phone-call" class="w-3.5 h-3.5 mr-2"></i> 086-1315434
-                            </a>
-                        </div>
-                    </div>
-					
-                        <!-- LINE Group QR Code Box -->
-                        <div class="bg-emerald-50 border-2 border-emerald-400 p-6 rounded-2xl flex flex-col items-center justify-center shadow-md relative group overflow-hidden">
-                            <div class="absolute top-0 right-0 p-1 bg-emerald-400 text-white rounded-bl-xl text-[10px] font-bold uppercase tracking-widest">
-                                LINE Group
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                        <div class="bg-white/80 p-5 rounded-2xl flex items-start space-x-4 shadow-sm border border-orange-100">
+                            <div class="bg-orange-500 p-3 rounded-xl text-white shadow-lg">
+                                <i data-lucide="user-round"></i>
                             </div>
-                            <p class="text-emerald-700 font-bold text-sm mb-3">เข้าร่วมกลุ่มสอบถาม</p>
-                            <div class="bg-white p-2 rounded-xl shadow-sm border border-emerald-100">
-                                <!-- เปลี่ยน line-qr.png เป็นไฟล์รูป QR Code กลุ่มไลน์ของคุณ -->
-                                <img src="Line G.jpg" alt="LINE Group QR" class="w-24 h-24 object-contain" onerror="this.src='https://via.placeholder.com/150?text=LINE+QR'">
+                            <div>
+                                <p class="text-sm font-bold text-slate-800">นายรชต รวบรวม</p>
+                                <p class="text-xs text-orange-600 font-medium mb-2">ครูฝึกฝีมือแรงงานเทคนิค</p>
+                                <a href="tel:0837889967" class="inline-flex items-center text-xs font-bold text-slate-700 bg-orange-50 px-3 py-1.5 rounded-lg border border-orange-200 hover:bg-orange-500 hover:text-white transition-all">
+                                    <i data-lucide="phone-call" class="w-3.5 h-3.5 mr-2"></i> 083-7889967
+                                </a>
                             </div>
-                            <p class="text-[10px] text-emerald-600 mt-2 font-medium">สแกนเพื่อเข้ากลุ่ม</p>
+                        </div>
+
+                        <div class="bg-white/80 p-5 rounded-2xl flex items-start space-x-4 shadow-sm border border-blue-100">
+                            <div class="bg-blue-500 p-3 rounded-xl text-white shadow-lg">
+                                <i data-lucide="user-cog"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-bold text-slate-800">นายอัศวิน ภู่ทอง</p>
+                                <p class="text-xs text-blue-600 font-medium mb-2">หัวหน้าฝ่ายพัฒนาฝีมือแรงงาน</p>
+                                <a href="tel:0861315434" class="inline-flex items-center text-xs font-bold text-slate-700 bg-blue-50 px-3 py-1.5 rounded-lg border border-blue-200 hover:bg-blue-500 hover:text-white transition-all">
+                                    <i data-lucide="phone-call" class="w-3.5 h-3.5 mr-2"></i> 086-1315434
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- LINE Group -->
+                        <div class="bg-emerald-50 border-2 border-emerald-400 p-4 rounded-2xl flex flex-col items-center justify-center shadow-md relative group">
+                            <div class="absolute top-0 right-0 p-1 bg-emerald-400 text-white rounded-bl-lg text-[8px] font-bold uppercase">LINE GROUP</div>
+                            <p class="text-emerald-700 font-bold text-xs mb-2">เข้ากลุ่มเพื่อรับข่าวสาร</p>
+                            <img src="Line G.jpg" alt="LINE Group QR" class="w-16 h-16 md:w-20 md:h-20 object-contain mb-1" onerror="this.src='https://via.placeholder.com/100?text=LINE+QR'">
+                            <p class="text-[8px] text-emerald-600 font-medium">สแกนเพื่อเข้ากลุ่ม</p>
                         </div>
                     </div>
-                <div class="mt-10 pt-6 border-t border-orange-200 text-center md:text-right">
-                        <p class="text-slate-900 text-lg md:text-2xl italic font-bold">
-                            สำนักงานพัฒนาฝีมือแรงงานลพบุรี
-                        </p>
-                        <p class="text-slate-500 text-sm">ฝ่ายพัฒนาฝีมือแรงงาน</p>
+                    
+                    <div class="text-right">
+                        <p class="text-slate-900 text-xl md:text-3xl italic font-black">สำนักงานพัฒนาฝีมือแรงงานลพบุรี</p>
+                        <p class="text-slate-500 font-bold text-xs uppercase tracking-widest">ฝ่ายพัฒนาฝีมือแรงงาน จ.ลพบุรี</p>
                     </div>
                 </div>
             </section>
+
+            <!-- Evaluation & Footer -->
+            <div class="flex flex-col md:flex-row justify-between items-center bg-slate-50/80 backdrop-blur-md rounded-2xl p-6 sm:p-8 border-2 border-dashed border-slate-300 gap-8 text-center md:text-left">
+                <div class="max-w-md">
+                    <h3 class="font-bold text-slate-800 flex items-center justify-center md:justify-start mb-3 text-lg">
+                        <i data-lucide="shield-check" class="mr-2 text-emerald-600"></i>
+                        เงื่อนไขการสำเร็จหลักสูตร
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center text-sm text-slate-600 bg-white p-2.5 rounded-xl border border-slate-100 shadow-sm">
+                            <div class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-2 shadow-sm"></div>
+                            ต้องมีเวลาเรียนไม่น้อยกว่า <strong class="mx-1 text-slate-800">ร้อยละ 80</strong>
+                        </div>
+                        <div class="flex items-center text-sm text-slate-600 bg-white p-2.5 rounded-xl border border-slate-100 shadow-sm">
+                            <div class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-2 shadow-sm"></div>
+                            ผ่านการประเมินไม่น้อยกว่า <strong class="mx-1 text-slate-800">ร้อยละ 60</strong>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-6 rounded-2xl shadow-xl border border-slate-100 min-w-[250px]">
+                    <p class="text-[10px] text-slate-400 uppercase tracking-widest font-bold mb-2">ได้รับการรับรองโดย</p>
+                    <p class="text-base font-black text-slate-800 leading-tight mb-1">กองพัฒนาผู้ฝึกและเทคโนโลยีการฝึก</p>
+                    <p class="text-sm font-bold text-emerald-600 mb-3">กรมพัฒนาฝีมือแรงงาน</p>
+                    <div class="h-px bg-slate-100 w-full mb-3"></div>
+                    <p class="text-[11px] font-bold text-slate-700 italic">ร่วมพัฒนาโดย บริษัท เกษตรอินโน จำกัด</p>
+                </div>
+            </div>
+
         </div>
     </div>
-    <p class="text-center mt-6 text-slate-400 text-xs font-medium">ข้อมูลปรับปรุงล่าสุด ณ วันที่ 23 มกราคม 2567</p>
+    <p class="text-center mt-8 text-slate-500 text-[10px] font-bold mb-10 uppercase tracking-widest opacity-70">
+        Update: 23 January 2024 • Lopburi Skill Development
+    </p>
 
     <script>
-        // Initialize Lucide icons
         lucide.createIcons();
 
-        // Accordion logic
         document.querySelectorAll('.accordion-button').forEach(button => {
             button.addEventListener('click', () => {
-                const item = button.parentElement;
                 const content = button.nextElementSibling;
                 const chevron = button.querySelector('.chevron');
-                
-                // Toggle active state
                 const isActive = content.classList.contains('active');
                 
-                // Close all other items
-                document.querySelectorAll('.accordion-content').forEach(otherContent => {
-                    otherContent.classList.remove('active');
-                    otherContent.parentElement.classList.remove('border-indigo-300');
-                    otherContent.previousElementSibling.querySelector('.chevron').classList.remove('rotate-180');
+                document.querySelectorAll('.accordion-content').forEach(c => {
+                    c.classList.remove('active');
+                    c.previousElementSibling.querySelector('.chevron').classList.remove('rotate-180');
                 });
 
                 if (!isActive) {
                     content.classList.add('active');
-                    item.classList.add('border-indigo-300');
                     chevron.classList.add('rotate-180');
                 }
             });
